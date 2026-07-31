@@ -39,14 +39,15 @@ git remote set-url origin https://github.com/syihab-zuhri/kknkuncir2026.git
 
 ## 3. Required Packages
 
-Baseline dependencies:
+Phase 0 menggunakan package stabil yang terkunci pada `package-lock.json`:
 
 ```bash
-npm install better-auth drizzle-orm zod
-npm install -D @opennextjs/cloudflare wrangler drizzle-kit vitest @playwright/test
+npm install
 ```
 
-Pin versions melalui lockfile dan commit `package-lock.json`.
+Versi utama Phase 0 adalah Next.js 16.2.12, `@opennextjs/cloudflare` 1.20.2, Wrangler 4.118.0, Vitest 4.1.10, Cloudflare Vitest pool 0.20.1, dan Playwright 1.62.1.
+
+Better Auth, `@better-auth/drizzle-adapter`, Drizzle ORM/Kit, dan Zod baru dipasang pada Phase 1. Dokumentasi Drizzle D1 saat audit masih menampilkan contoh package `@rc`; jangan ikuti contoh RC tersebut. Gunakan rilis stabil yang memenuhi peer dependency Better Auth dan review generated auth schema sebelum migration.
 
 ## 4. Next.js OpenNext Configuration
 
@@ -63,21 +64,19 @@ Recommended scripts:
 ```json
 {
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "cf:build": "opennextjs-cloudflare build",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
-    "deploy:version": "opennextjs-cloudflare build && wrangler versions upload",
-    "test:ci": "vitest run",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply kknkuncir2026-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply kknkuncir2026-db --remote",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview --port 8787",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env=\"\"",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p test/tsconfig.json"
   }
 }
 ```
+
+OpenNext terbaru merekomendasikan CLI `opennextjs-cloudflare` untuk preview/deploy. Wrangler langsung tetap dipakai untuk type generation, D1 commands, dan configuration dry-run. Flag `--env=""` memilih top-level production secara eksplisit; preview selalu memakai `--env preview`.
 
 ## 5. Cloudflare Authentication
 
@@ -103,6 +102,8 @@ npx wrangler d1 create kknkuncir2026-preview-db
 ```
 
 Copy production ID ke `database_id` dan preview ID ke `preview_database_id` pada binding `DB` di `wrangler.jsonc`.
+
+Sebelum kedua resource remote dibuat, repository memakai sentinel UUID yang berbeda untuk production dan preview. Sentinel bukan credential dan tidak menunjuk resource Cloudflare. Deployment remote dilarang sampai sentinel diganti dengan ID hasil command di atas.
 
 ## 7. Generate and Apply Migrations
 
@@ -142,8 +143,8 @@ In Cloudflare Dashboard:
 1. Workers & Pages → Create application → Import a repository.
 2. Select `syihab-zuhri/kknkuncir2026`.
 3. Production branch: `main`.
-4. Build command: `npm run test:ci && npm run cf:build`.
-5. Deploy command: `npx wrangler deploy`.
+4. Build command: `npm run test:ci`.
+5. Deploy command: `npx opennextjs-cloudflare deploy --env=""`.
 6. Root directory: repository root.
 7. Enable build on push to `main`.
 8. Add `NEXT_PUBLIC_APP_URL=https://zuhrirey.my.id` dan public build variables lain yang diperlukan; secrets tetap Worker secrets.

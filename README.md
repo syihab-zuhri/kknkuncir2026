@@ -1,71 +1,64 @@
-# kkndesakuncir — Documentation Blueprint
+# kkndesakuncir
 
-**Document Version**: 1.1.0  
-**Last Updated**: 2026-07-31  
-**Language**: Bahasa Indonesia  
-**Status**: Ready for Implementation  
-**Repository**: `https://github.com/syihab-zuhri/kknkuncir2026`  
-**Production Domain**: `https://zuhrirey.my.id`
+Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Router dan ditargetkan ke Cloudflare Workers melalui OpenNext.
 
-Folder ini adalah single source of truth untuk implementasi website absensi KKN `kkndesakuncir` menggunakan Claude Code atau Codex.
+## Status implementasi
 
-## Platform Baseline
+Phase 0 lokal telah tersedia dan tervalidasi. Implementasi authentication, schema aplikasi, QR attendance, dashboard, dan fitur bisnis belum dimulai.
 
-- Full-stack runtime: Cloudflare Workers.
-- Framework adapter: `@opennextjs/cloudflare`.
-- Database: Cloudflare D1.
-- Authentication: Better Auth dengan D1, Admin plugin, dan Username plugin.
-- Object storage P1: Cloudflare R2.
-- Scheduled daily attendance: Cloudflare Cron Triggers.
-- Rate limiting: Cloudflare Workers Rate Limiting bindings per sensitive flow.
-- Observability: Cloudflare Workers Logs dan Traces.
-- CI/CD: Cloudflare Workers Builds terhubung ke GitHub branch `main`.
-- Custom domain: `zuhrirey.my.id`.
+Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Workers Builds belum diaktifkan dan domain production belum ditempelkan ke Worker.
 
-> 💡 Reasoning: Next.js full-stack ditempatkan pada Workers, bukan Cloudflare Pages statis, karena aplikasi memerlukan route handler, session auth, akses D1, dan scheduled job.
+## Stack Phase 0
 
-## Urutan Baca untuk Agent
+- Next.js 16 App Router, React 19, dan TypeScript strict.
+- Tailwind CSS 4 dan ESLint 9.
+- `@opennextjs/cloudflare` dan Wrangler 4.
+- Vitest dengan runtime pool Cloudflare dan D1 lokal terisolasi.
+- Playwright Chromium untuk smoke test Worker-compatible preview.
+- Prettier dan scripts lint/typecheck/build/deploy.
 
-1. `PLANNING.md`
-2. `SRS.md`
-3. `ARCHITECTURE.md`
-4. `ERD.md`
-5. `PERMISSION.md`
-6. `DSD.md`
-7. `PRD/_INDEX.md`
-8. PRD fitur yang sedang dikerjakan
-9. `TASKS.md`
-10. `DEPLOYMENT.md`
-11. `credential.md`
-12. `agent.md`
+## Menjalankan lokal
 
-## Aturan Utama
-
-- Jangan menambahkan role baru tanpa memperbarui `PERMISSION.md`, `SRS.md`, dan PRD terkait.
-- Jangan mengubah schema tanpa memperbarui `ERD.md`, migration D1, API contract, dan `CHANGELOG.md`.
-- Jangan menggunakan package yang bergantung pada native Node.js API tanpa memverifikasi kompatibilitas Cloudflare Workers.
-- Seluruh akses D1 dilakukan dari server melalui binding `DB`; browser tidak pernah menerima credential database.
-- Waktu resmi berasal dari server dengan zona waktu bisnis `Asia/Jakarta`.
-- Lokasi pengguna direkam saat absensi mandiri, tetapi tidak digunakan sebagai geofence pemblokir pada MVP.
-- Absensi harian dan absensi kegiatan adalah dua jenis sesi yang berbeda.
-- `wrangler.jsonc` adalah source of truth untuk binding, domain, cron, observability, dan environment Cloudflare.
-- Push ke branch `main` memicu build dan deployment produksi setelah integrasi GitHub diaktifkan.
-
-## Repository Bootstrap
-
-Repo tujuan sudah ditetapkan:
+Gunakan Node.js 24 dan npm 11.
 
 ```bash
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/syihab-zuhri/kknkuncir2026.git
-git push -u origin main
+npm ci
+npm run cf:typegen
+npm run dev
 ```
 
-> Catatan: gunakan `git add .`, bukan hanya `git add README.md`, agar source code dan dokumentasi ikut ter-push.
+Halaman status tersedia di `http://localhost:3000/health`.
 
-## Dokumen yang Sengaja Tidak Dibuat
+Untuk menjalankan hasil OpenNext pada runtime Worker lokal:
 
-- `MIGRATION.md`: belum diperlukan karena sistem diasumsikan baru dan tidak memiliki data produksi lama.
+```bash
+npm run preview
+```
+
+Preview memakai environment `preview`, URL `http://127.0.0.1:8787`, dan binding `kknkuncir2026-preview-db`. Preview tidak memakai D1 production.
+
+## Validation commands
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run cf:build
+npm run cf:validate
+npm run cf:validate:production
+npm run test:smoke
+```
+
+`cf:validate` dan `cf:validate:production` hanya menjalankan Wrangler `--dry-run`; keduanya tidak mengunggah Worker.
+
+## Deployment safety
+
+- Jangan jalankan `npm run deploy` sebelum secrets, migrations, dan seluruh gate deployment ditinjau.
+- Top-level Wrangler adalah production Worker `kknkuncir2026`; named environment `preview` menghasilkan Worker preview terpisah.
+- `.dev.vars` dan seluruh `.env*` lokal di-ignore. Hanya `.dev.vars.example` yang boleh di-commit.
+- Production deploy berasal dari branch `main` melalui Workers Builds setelah konfigurasi eksternal selesai.
+
+## Dokumentasi
+
+Mulai dari `PLANNING.md`, lalu ikuti urutan source-of-truth di `agent.md`. Checklist implementasi ada di `TASKS.md`; runbook Cloudflare ada di `DEPLOYMENT.md`.

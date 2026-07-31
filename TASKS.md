@@ -9,19 +9,21 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 
 ## Phase 0 — Repository, Cloudflare, and Project Setup
 
-- [ ] `[S]` Clone atau inisialisasi repo `syihab-zuhri/kknkuncir2026` dan pastikan branch `main` aktif. `(ref: DEPLOYMENT.md)`
-- [ ] `[S]` Bootstrap Next.js App Router + TypeScript + Tailwind CSS.
-- [ ] `[S]` Tambahkan `.nvmrc`/`engines`, ESLint, Prettier, dan strict TypeScript.
-- [ ] `[S]` Install serta konfigurasi `@opennextjs/cloudflare` dan Wrangler. `(ref: ARCHITECTURE.md)`
-- [ ] `[S]` Buat `open-next.config.ts` dan scripts `cf:build`, `preview`, `deploy`.
-- [ ] `[S]` Buat `wrangler.jsonc` dengan Worker name `kknkuncir2026`.
-- [ ] `[S]` Buat D1 production `kknkuncir2026-db` dan preview database. `(ref: DEPLOYMENT.md)`
-- [ ] `[S]` Deklarasikan binding `DB`, static assets, Cron, dan rate limiters.
-- [ ] `[S]` Buat `.dev.vars.example`, `.gitignore`, dan typed Cloudflare environment. `(ref: credential.md)`
-- [ ] `[S]` Aktifkan Workers Logs, Traces, dan source maps.
+- [x] `[S]` Clone atau inisialisasi repo `syihab-zuhri/kknkuncir2026` dan pastikan branch `main` aktif. `(ref: DEPLOYMENT.md)`
+- [x] `[S]` Bootstrap Next.js App Router + TypeScript + Tailwind CSS.
+- [x] `[S]` Tambahkan `.nvmrc`/`engines`, ESLint, Prettier, dan strict TypeScript.
+- [x] `[S]` Install serta konfigurasi `@opennextjs/cloudflare` dan Wrangler. `(ref: ARCHITECTURE.md)`
+- [x] `[S]` Buat `open-next.config.ts` dan scripts `cf:build`, `preview`, `deploy`.
+- [x] `[S]` Buat `wrangler.jsonc` dengan Worker name `kknkuncir2026`.
+- [x] `[S]` Buat D1 production `kknkuncir2026-db` dan preview database. `(ref: DEPLOYMENT.md)`
+- [x] `[S]` Deklarasikan binding `DB`, static assets, Cron, dan rate limiters.
+- [x] `[S]` Buat `.dev.vars.example`, `.gitignore`, dan typed Cloudflare environment. `(ref: credential.md)`
+- [x] `[S]` Aktifkan Workers Logs, Traces, dan source maps.
 - [ ] `[S]` Hubungkan Workers Builds ke repo GitHub branch `main`.
 - [ ] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
-- [ ] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
+- [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
+
+> Status 2026-07-31: bootstrap, dua D1 terpisah, dan validation gate lokal selesai di branch `feat/bootstrap-cloudflare`. Dua task eksternal tetap terbuka: menghubungkan Workers Builds dan memasang custom domain setelah Worker production dinyatakan sehat. Tidak ada deployment production pada Phase 0 ini.
 
 ## Phase 1 — D1 Schema and Authentication
 

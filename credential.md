@@ -186,3 +186,9 @@ Run independently for each secret.
 | Production | `kknkuncir2026-db` | `zuhrirey.my.id` | `main` via Workers Builds |
 
 Do not connect preview deployments to production D1.
+
+### Phase 0 implementation note
+
+- `.dev.vars.example` berisi nama variable dan nilai secret kosong; `.dev.vars` tidak dibuat atau di-commit.
+- Top-level `wrangler.jsonc` adalah production dan `env.preview` mendeklarasikan ulang binding `DB` ke database preview.
+- `wrangler.jsonc` menyimpan ID resource D1 aktual untuk production dan preview. ID resource bukan secret; OAuth/API token Cloudflare tetap hanya berada di credential store Wrangler lokal.

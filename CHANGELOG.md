@@ -3,6 +3,30 @@
 **Document Version**: 1.1.0  
 **Last Updated**: 2026-07-31
 
+## 2026-07-31 — Version 1.2.0
+
+### Added
+
+- Next.js 16.2.12 App Router scaffold dengan TypeScript strict, Tailwind CSS 4, ESLint, Prettier, dan Node.js 24 baseline.
+- OpenNext/Cloudflare configuration, typed Worker bindings, production/preview environment separation, D1 resources terpisah, rate limiter declarations, Cron declaration, Logs, Traces, dan source maps.
+- Halaman status `/health`, root status page, loading state, dan error boundary dasar.
+- Vitest 4 + Cloudflare Workers pool dengan D1 test lokal serta Playwright Chromium smoke test.
+- Scripts lint, typecheck, unit test, Next build, OpenNext build, preview, Wrangler dry-run, upload, dan deploy.
+
+### Changed
+
+- `ARCHITECTURE.md` dan `DEPLOYMENT.md` diselaraskan dengan OpenNext CLI terbaru, named preview environment, dan compatibility date `2026-07-30`.
+- Better Auth dan Drizzle dipertahankan sebagai Phase 1; dokumentasi mencatat agar contoh Drizzle `@rc` tidak digunakan dan adapter Better Auth stabil dipilih saat Phase 1.
+- Build memakai Webpack karena native SWC/Turbopack Windows tidak tersedia pada environment validasi; WebAssembly SWC berhasil menyelesaikan Next.js dan OpenNext build.
+
+### Validation
+
+- Dependency install, lint, strict typecheck, dua baseline tests, Next.js build, OpenNext build, local Worker preview, Playwright smoke, serta Wrangler preview/production dry-run berhasil.
+
+### Deferred
+
+- Workers Builds, custom domain, push, dan production deployment menunggu konfigurasi/otorisasi remote berikutnya.
+
 ## 2026-07-31 — Version 1.1.0
 
 ### Added

@@ -405,7 +405,7 @@ Deployment details dan rollback ada di `DEPLOYMENT.md`.
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "kknkuncir2026",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2026-07-31",
+  "compatibility_date": "2026-07-30",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
@@ -453,13 +453,21 @@ Deployment details dan rollback ada di `DEPLOYMENT.md`.
     "crons": ["5 * * * *"]
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "logs": { "enabled": true, "invocation_logs": true },
+    "traces": { "enabled": true }
   },
   "upload_source_maps": true
 }
 ```
 
 > 💡 Reasoning: `wrangler.jsonc` menjadi source of truth untuk resource bindings dan deployment. Dashboard Cloudflare tidak boleh menjadi satu-satunya tempat konfigurasi karena sulit direview dan direproduksi.
+
+Phase 0 mengimplementasikan top-level Wrangler sebagai production Worker bernama persis `kknkuncir2026` dan named environment `preview` sebagai Worker terpisah. Karena bindings dan `vars` tidak diwariskan ke named environment, konfigurasi preview mendeklarasikan ulang seluruh binding dengan D1 `kknkuncir2026-preview-db`; script preview selalu memakai `--env preview`.
+
+`compatibility_date` dipin ke `2026-07-30`, yaitu tanggal terbaru yang didukung `workerd` yang terkunci bersama Wrangler 4.118.0. D1 production dan preview dibuat terpisah di region hint APAC; `database_id` aktual disimpan sebagai resource identifier pada Wrangler, bukan sebagai credential. `preview_database_id` top-level dan binding named environment preview sama-sama menunjuk D1 preview.
+
+Rate limiter dan Cron pada Phase 0 baru berupa deklarasi infrastruktur. Pemanggilan binding rate limiter dan scheduled handler tetap mengikuti phase fitur terkait; deklarasi ini tidak dianggap implementasi authentication atau scheduler bisnis.
 
 ## 20. Security Baseline
 
