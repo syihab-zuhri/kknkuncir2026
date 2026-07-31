@@ -18,6 +18,7 @@
 - `ARCHITECTURE.md` dan `DEPLOYMENT.md` diselaraskan dengan OpenNext CLI terbaru, named preview environment, dan compatibility date `2026-07-30`.
 - Better Auth dan Drizzle dipertahankan sebagai Phase 1; dokumentasi mencatat agar contoh Drizzle `@rc` tidak digunakan dan adapter Better Auth stabil dipilih saat Phase 1.
 - Build memakai Webpack karena native SWC/Turbopack Windows tidak tersedia pada environment validasi; WebAssembly SWC berhasil menyelesaikan Next.js dan OpenNext build.
+- Template credential memakai nilai secret kosong; tidak ada password/token contoh atau secret aktual yang di-commit.
 
 ### Validation
 
