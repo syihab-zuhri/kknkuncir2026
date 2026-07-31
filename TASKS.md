@@ -1,6 +1,6 @@
 # TASKS — Execution Checklist: kkndesakuncir
 
-**Document Version**: 1.1.0  
+**Document Version**: 1.2.0  
 **Last Updated**: 2026-07-31  
 **Status**: Ready for Execution  
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`

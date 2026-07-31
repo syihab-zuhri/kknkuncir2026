@@ -1,6 +1,6 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.1.0  
+**Document Version**: 1.2.0  
 **Last Updated**: 2026-07-31
 
 ## 2026-07-31 — Version 1.2.0
