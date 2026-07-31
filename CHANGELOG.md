@@ -1,0 +1,75 @@
+# CHANGELOG — kkndesakuncir Documentation
+
+**Document Version**: 1.1.0  
+**Last Updated**: 2026-07-31
+
+## 2026-07-31 — Version 1.1.0
+
+### Added
+
+- `DEPLOYMENT.md`: runbook GitHub → Cloudflare Workers Builds → D1 migration → custom domain → rollback.
+- `ARCHITECTURE.md`: Cloudflare Worker resources, OpenNext runtime, D1 atomicity, Cron, Rate Limiting, Workers Logs/Traces, and Wrangler baseline.
+- `ERD.md`: D1/SQLite type conventions, Better Auth tables/plugins, D1 indexes, constraints, and atomic audit strategy.
+- `credential.md`: Cloudflare bindings, Worker secrets, environment separation, and onboarding checklist.
+
+### Changed
+
+- `README.md`: production baseline, repository, domain, and read order updated.
+- `PLANNING.md`: stack changed to Cloudflare-native and repository/domain assumptions recorded.
+- `SRS.md`: platform NFR and server-side ownership authorization updated for D1.
+- `PRD/AUTH.md`: Better Auth + D1, NIM username, internal email, Admin provisioning, and session revocation.
+- `PRD/ATTENDANCE_CORRECTION.md`: D1 atomic batch, optimistic revision, and conditional audit insert.
+- `PERMISSION.md`: removed database RLS dependency and defined Worker/service/repository authorization layers.
+- `TASKS.md`: execution plan replaced with Cloudflare setup, D1 migrations, Workers Builds, Cron, and deployment tasks.
+- `agent.md`: handoff rules updated for Claude Code/Codex using Cloudflare Workers and D1.
+- `PRD/_INDEX.md`, all remaining PRDs, and `DSD.md`: document version synchronized and stale data-model terms corrected.
+
+### Removed
+
+- Active Vercel deployment dependency.
+- Active Supabase Auth/PostgreSQL/Storage dependency.
+- Supabase service-role and PostgreSQL RLS implementation requirements.
+- Sentry as an MVP requirement.
+
+### Decisions
+
+- Full-stack Next.js runs on Cloudflare Workers using OpenNext.
+- Cloudflare D1 is the production database; Drizzle manages schema and migrations.
+- Better Auth provides authentication with D1, Username, and Admin plugins.
+- Production deploys from GitHub repo `syihab-zuhri/kknkuncir2026`, branch `main`.
+- Production domain is `zuhrirey.my.id`.
+- R2 is reserved for P1 evidence attachments.
+- Cron runs hourly and generates daily sessions idempotently in `Asia/Jakarta`.
+
+## 2026-07-31 — Version 1.0.0
+
+### Added
+
+- Initial project brief and implementation assumptions.
+- `PLANNING.md`: objectives, sitemap, roadmap, initial stack, assumptions, and risks.
+- `SRS.md`: P0/P1/P2 requirements, personas, journeys, NFR, and out-of-scope.
+- `PRD/_INDEX.md`: feature registry and dependency order.
+- `PRD/AUTH.md`: account provisioning and login requirements.
+- `PRD/GROUP_MANAGEMENT.md`: single-group and student management.
+- `PRD/ATTENDANCE_SESSION.md`: daily/event session lifecycle.
+- `PRD/QR_ATTENDANCE.md`: session QR, student QR, location capture, and duplicate prevention.
+- `PRD/ATTENDANCE_CORRECTION.md`: manual attendance, correction, and audit.
+- `PRD/REPORTING.md`: dashboard, filters, and CSV export.
+- `DSD.md`: mobile-first design system and scanner UX.
+- `ERD.md`: initial schema, relations, indexes, and constraints.
+- `ARCHITECTURE.md`: initial modular monolith architecture.
+- `PERMISSION.md`: two-role access matrix.
+- `TASKS.md`: implementation checklist.
+- `credential.md`: environment template.
+- `agent.md`: specialist-agent handoff.
+
+### Decisions
+
+- Hanya dua role: Admin dan Mahasiswa.
+- Satu kelompok KKN pada MVP.
+- Absensi satu kali per sesi tanpa check-out.
+- Absensi harian dan kegiatan memakai entity sesi yang sama.
+- Self-scan menyimpan lokasi Mahasiswa tanpa geofence.
+- Jika lokasi gagal, gunakan fallback Admin scan.
+- Akun Mahasiswa dibuat oleh Admin; tidak ada registrasi publik.
+- `MIGRATION.md` tidak dibuat karena tidak ada sistem lama.
