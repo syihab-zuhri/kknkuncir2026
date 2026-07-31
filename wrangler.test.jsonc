@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kknkuncir2026-test",
+  "main": "test/worker.ts",
+  "compatibility_date": "2026-07-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kknkuncir2026-test-db",
+      "database_id": "22222222-2222-2222-2222-222222222222"
+    }
+  ]
+}
