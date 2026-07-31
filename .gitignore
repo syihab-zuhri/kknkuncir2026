@@ -25,6 +25,7 @@
 
 # Logs and local tooling
 *.log
+*.cpuprofile
 .DS_Store
 Thumbs.db
 *.tsbuildinfo

@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   description: "Fondasi aplikasi kehadiran KKN Desa Kuncir 2026.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id">
       <body>{children}</body>

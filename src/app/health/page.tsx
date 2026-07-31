@@ -15,8 +15,8 @@ export default function HealthPage() {
         <span className="health-badge">{status.status}</span>
         <h1 id="health-title">Aplikasi dapat dirender.</h1>
         <p className="lede">
-          Halaman ini adalah smoke target Phase 0. Status database hanya menunjukkan deklarasi binding;
-          belum ada koneksi atau schema aplikasi.
+          Halaman ini adalah smoke target Phase 0. Status database hanya
+          menunjukkan deklarasi binding; belum ada koneksi atau schema aplikasi.
         </p>
 
         <dl className="health-list">

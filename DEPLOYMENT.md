@@ -173,9 +173,9 @@ Requirements:
 - Cloudflare manages certificate provisioning for the Worker custom domain.
 - Confirm existing DNS records do not conflict before first deployment.
 
-## 11. Cron Trigger
+## 11. Cron Trigger (Phase 3)
 
-Wrangler baseline:
+Phase 0 tidak mengaktifkan Cron. Tambahkan trigger berikut pada Phase 3 hanya setelah scheduled handler tersedia dan telah diuji:
 
 ```jsonc
 {

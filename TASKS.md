@@ -16,7 +16,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Buat `open-next.config.ts` dan scripts `cf:build`, `preview`, `deploy`.
 - [x] `[S]` Buat `wrangler.jsonc` dengan Worker name `kknkuncir2026`.
 - [x] `[S]` Buat D1 production `kknkuncir2026-db` dan preview database. `(ref: DEPLOYMENT.md)`
-- [x] `[S]` Deklarasikan binding `DB`, static assets, Cron, dan rate limiters.
+- [x] `[S]` Deklarasikan binding `DB`, static assets, dan rate limiters; tunda Cron sampai scheduled handler Phase 3 tersedia.
 - [x] `[S]` Buat `.dev.vars.example`, `.gitignore`, dan typed Cloudflare environment. `(ref: credential.md)`
 - [x] `[S]` Aktifkan Workers Logs, Traces, dan source maps.
 - [ ] `[S]` Hubungkan Workers Builds ke repo GitHub branch `main`.

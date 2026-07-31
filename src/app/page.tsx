@@ -17,8 +17,9 @@ export default function Home() {
 
         <div>
           <p className="lede">
-            Bootstrap Next.js untuk Cloudflare Workers telah tersedia. Autentikasi, schema aplikasi,
-            dan fitur kehadiran sengaja belum diaktifkan pada fase ini.
+            Bootstrap Next.js untuk Cloudflare Workers telah tersedia.
+            Autentikasi, schema aplikasi, dan fitur kehadiran sengaja belum
+            diaktifkan pada fase ini.
           </p>
           <Link className="status-link" href="/health">
             Periksa status aplikasi

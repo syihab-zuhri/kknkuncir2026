@@ -1,7 +1,15 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.2.0  
+**Document Version**: 1.2.1
 **Last Updated**: 2026-07-31
+
+## 2026-07-31 — Version 1.2.1
+
+### Changed
+
+- Cron production ditunda sampai scheduled handler Phase 3 tersedia, sehingga baseline Phase 0 tidak membuat invocation terjadwal tanpa handler.
+- Sampling trace production ditetapkan ke `0.05`; preview tetap `1` untuk diagnosis penuh dengan lingkungan terisolasi.
+- Branch `main` dan `feat/bootstrap-cloudflare` dipublikasikan ke repository GitHub tanpa merge atau force-push.
 
 ## 2026-07-31 — Version 1.2.0
 

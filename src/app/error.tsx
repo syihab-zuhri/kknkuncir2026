@@ -15,10 +15,16 @@ export default function GlobalError({
 
   return (
     <main className="shell">
-      <section className="health-panel" role="alert" aria-labelledby="error-title">
+      <section
+        className="health-panel"
+        role="alert"
+        aria-labelledby="error-title"
+      >
         <p className="eyebrow">Terjadi kendala</p>
         <h1 id="error-title">Halaman belum dapat ditampilkan.</h1>
-        <p className="lede">Coba muat kembali halaman. Tidak ada data sensitif yang ditampilkan.</p>
+        <p className="lede">
+          Coba muat kembali halaman. Tidak ada data sensitif yang ditampilkan.
+        </p>
         <button className="retry-button" onClick={reset} type="button">
           Coba lagi
         </button>
