@@ -1,6 +1,6 @@
 # ARCHITECTURE — kkndesakuncir
 
-**Document Version**: 1.1.0  
+**Document Version**: 1.2.0  
 **Last Updated**: 2026-07-31  
 **Status**: Approved Cloudflare Baseline
 
@@ -405,7 +405,7 @@ Deployment details dan rollback ada di `DEPLOYMENT.md`.
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "kknkuncir2026",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2026-07-31",
+  "compatibility_date": "2026-07-30",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
@@ -449,17 +449,22 @@ Deployment details dan rollback ada di `DEPLOYMENT.md`.
       "custom_domain": true
     }
   ],
-  "triggers": {
-    "crons": ["5 * * * *"]
-  },
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "logs": { "enabled": true, "invocation_logs": true },
+    "traces": { "enabled": true, "head_sampling_rate": 0.05 }
   },
   "upload_source_maps": true
 }
 ```
 
 > 💡 Reasoning: `wrangler.jsonc` menjadi source of truth untuk resource bindings dan deployment. Dashboard Cloudflare tidak boleh menjadi satu-satunya tempat konfigurasi karena sulit direview dan direproduksi.
+
+Phase 0 mengimplementasikan top-level Wrangler sebagai production Worker bernama persis `kknkuncir2026` dan named environment `preview` sebagai Worker terpisah. Karena bindings dan `vars` tidak diwariskan ke named environment, konfigurasi preview mendeklarasikan ulang seluruh binding dengan D1 `kknkuncir2026-preview-db`; script preview selalu memakai `--env preview`.
+
+`compatibility_date` dipin ke `2026-07-30`, yaitu tanggal terbaru yang didukung `workerd` yang terkunci bersama Wrangler 4.118.0. D1 production dan preview dibuat terpisah di region hint APAC; `database_id` aktual disimpan sebagai resource identifier pada Wrangler, bukan sebagai credential. `preview_database_id` top-level dan binding named environment preview sama-sama menunjuk D1 preview.
+
+Rate limiter pada Phase 0 baru berupa deklarasi binding. Pemanggilan binding tetap mengikuti phase fitur terkait. Cron sengaja tidak diaktifkan pada Phase 0 karena entrypoint belum memiliki scheduled handler; trigger `5 * * * *` baru ditambahkan bersama implementasi dan pengujian Phase 3 agar deployment baseline tidak menghasilkan invocation gagal.
 
 ## 20. Security Baseline
 

@@ -1,0 +1,9 @@
+.next/
+.open-next/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+cloudflare-env.d.ts
+package-lock.json
+*.md

@@ -1,0 +1,122 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kknkuncir2026",
+  "main": ".open-next/worker.js",
+  // Keep this at or below the newest date supported by the pinned workerd build.
+  "compatibility_date": "2026-07-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "upload_source_maps": true,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "head_sampling_rate": 1,
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.05,
+    },
+  },
+  "vars": {
+    "APP_NAME": "kkndesakuncir",
+    "APP_URL": "https://zuhrirey.my.id",
+    "APP_TIMEZONE": "Asia/Jakarta",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kknkuncir2026-db",
+      "database_id": "add8c880-5e60-4028-b202-494752b72ae4",
+      "preview_database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
+      "migrations_dir": "drizzle",
+      "migrations_pattern": "drizzle/**/*.sql",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "LOGIN_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 5, "period": 60 },
+    },
+    {
+      "name": "SELF_SCAN_RATE_LIMITER",
+      "namespace_id": "1002",
+      "simple": { "limit": 10, "period": 60 },
+    },
+    {
+      "name": "ADMIN_SCAN_RATE_LIMITER",
+      "namespace_id": "1003",
+      "simple": { "limit": 120, "period": 60 },
+    },
+    {
+      "name": "ADMIN_MUTATION_RATE_LIMITER",
+      "namespace_id": "1004",
+      "simple": { "limit": 30, "period": 60 },
+    },
+  ],
+  "routes": [
+    {
+      "pattern": "zuhrirey.my.id",
+      "custom_domain": true,
+    },
+  ],
+  "env": {
+    "preview": {
+      "vars": {
+        "APP_NAME": "kkndesakuncir-preview",
+        "APP_URL": "http://127.0.0.1:8787",
+        "APP_TIMEZONE": "Asia/Jakarta",
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "kknkuncir2026-preview-db",
+          "database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
+          "preview_database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
+          "migrations_dir": "drizzle",
+          "migrations_pattern": "drizzle/**/*.sql",
+        },
+      ],
+      "ratelimits": [
+        {
+          "name": "LOGIN_RATE_LIMITER",
+          "namespace_id": "2001",
+          "simple": { "limit": 5, "period": 60 },
+        },
+        {
+          "name": "SELF_SCAN_RATE_LIMITER",
+          "namespace_id": "2002",
+          "simple": { "limit": 10, "period": 60 },
+        },
+        {
+          "name": "ADMIN_SCAN_RATE_LIMITER",
+          "namespace_id": "2003",
+          "simple": { "limit": 120, "period": 60 },
+        },
+        {
+          "name": "ADMIN_MUTATION_RATE_LIMITER",
+          "namespace_id": "2004",
+          "simple": { "limit": 30, "period": 60 },
+        },
+      ],
+      "routes": [],
+      "observability": {
+        "enabled": true,
+        "logs": {
+          "enabled": true,
+          "invocation_logs": true,
+          "head_sampling_rate": 1,
+        },
+        "traces": {
+          "enabled": true,
+          "head_sampling_rate": 1,
+        },
+      },
+    },
+  },
+}
