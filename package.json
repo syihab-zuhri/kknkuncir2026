@@ -1,0 +1,54 @@
+{
+  "name": "kkndesakuncir",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=11 <12"
+  },
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "cf:validate": "wrangler deploy --dry-run --env preview",
+    "cf:validate:production": "wrangler deploy --dry-run --env=\"\"",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview --port 8787",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env=\"\"",
+    "deploy:preview": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env preview",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload --env=\"\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p test/tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test e2e/health.spec.ts --project=chromium",
+    "test:ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run cf:build",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "next": "16.2.12",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.20.1",
+    "@opennextjs/cloudflare": "1.20.2",
+    "@playwright/test": "1.62.1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "prettier": "3.9.6",
+    "rclone.js": "0.6.6",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "4.1.10",
+    "wrangler": "4.118.0"
+  }
+}
