@@ -31,10 +31,8 @@
     {
       "binding": "DB",
       "database_name": "kknkuncir2026-db",
-      // Placeholder IDs are intentionally non-routable. Replace only with IDs
-      // returned by `wrangler d1 create`; they are resource identifiers, not secrets.
-      "database_id": "00000000-0000-0000-0000-000000000000",
-      "preview_database_id": "11111111-1111-1111-1111-111111111111",
+      "database_id": "add8c880-5e60-4028-b202-494752b72ae4",
+      "preview_database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
       "migrations_dir": "drizzle",
       "migrations_pattern": "drizzle/**/*.sql"
     }
@@ -81,8 +79,8 @@
         {
           "binding": "DB",
           "database_name": "kknkuncir2026-preview-db",
-          "database_id": "11111111-1111-1111-1111-111111111111",
-          "preview_database_id": "11111111-1111-1111-1111-111111111111",
+          "database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
+          "preview_database_id": "d0a31fa6-3b09-4a16-9749-67e618971b34",
           "migrations_dir": "drizzle",
           "migrations_pattern": "drizzle/**/*.sql"
         }
