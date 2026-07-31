@@ -13,6 +13,7 @@
 - Copy halaman health diselaraskan dengan status resource D1 yang sudah dibuat tanpa mengklaim schema aplikasi telah tersedia.
 - Worker preview dan production dideploy dari bundle yang sama; `/health` diverifikasi HTTP 200 dan dirender melalui browser pada workers.dev preview serta `https://zuhrirey.my.id`.
 - Metadata versi production diverifikasi hanya memiliki handler `fetch` dan binding `DB` menunjuk D1 production; custom domain aktif dengan TLS Cloudflare.
+- Workers Builds dihubungkan ke repository `syihab-zuhri/kknkuncir2026` dengan production branch `main`; build pertama dipicu melalui commit dokumentasi setelah koneksi dibuat.
 
 ## 2026-07-31 — Version 1.2.0
 

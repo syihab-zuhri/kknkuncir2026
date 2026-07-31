@@ -19,11 +19,11 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Deklarasikan binding `DB`, static assets, dan rate limiters; tunda Cron sampai scheduled handler Phase 3 tersedia.
 - [x] `[S]` Buat `.dev.vars.example`, `.gitignore`, dan typed Cloudflare environment. `(ref: credential.md)`
 - [x] `[S]` Aktifkan Workers Logs, Traces, dan source maps.
-- [ ] `[S]` Hubungkan Workers Builds ke repo GitHub branch `main`.
+- [x] `[S]` Hubungkan Workers Builds ke repo GitHub branch `main`.
 - [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-07-31: bootstrap, dua D1 terpisah, validation gate lokal, Worker preview, Worker production, dan custom domain selesai serta sehat. Satu task eksternal tetap terbuka: Workers Builds baru dihubungkan ke `main` setelah PR #1 direview dan di-merge oleh pemilik repository.
+> Status 2026-07-31: seluruh Phase 0 selesai. Bootstrap, dua D1 terpisah, validation gate lokal, Worker preview, Worker production, custom domain, dan Workers Builds untuk branch `main` sudah tersedia. Authentication, schema aplikasi, dan fitur bisnis tetap belum dimulai.
 
 ## Phase 1 — D1 Schema and Authentication
 
