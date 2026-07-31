@@ -14,6 +14,7 @@
 - Worker preview dan production dideploy dari bundle yang sama; `/health` diverifikasi HTTP 200 dan dirender melalui browser pada workers.dev preview serta `https://zuhrirey.my.id`.
 - Metadata versi production diverifikasi hanya memiliki handler `fetch` dan binding `DB` menunjuk D1 production; custom domain aktif dengan TLS Cloudflare.
 - Workers Builds dihubungkan ke repository `syihab-zuhri/kknkuncir2026` dengan production branch `main`; build pertama dipicu melalui commit dokumentasi setelah koneksi dibuat.
+- Range engine npm diselaraskan menjadi `>=10.9 <12` setelah Workers Builds mendeteksi npm 10.9.2; npm 11 lokal tetap didukung.
 
 ## 2026-07-31 — Version 1.2.0
 

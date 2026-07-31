@@ -19,7 +19,7 @@ Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID bi
 
 ## Menjalankan lokal
 
-Gunakan Node.js 24 dan npm 11.
+Gunakan Node.js 24 dan npm 10.9 atau 11.
 
 ```bash
 npm ci

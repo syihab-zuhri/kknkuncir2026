@@ -47,6 +47,8 @@ npm install
 
 Versi utama Phase 0 adalah Next.js 16.2.12, `@opennextjs/cloudflare` 1.20.2, Wrangler 4.118.0, Vitest 4.1.10, Cloudflare Vitest pool 0.20.1, dan Playwright 1.62.1.
 
+Runtime Workers Builds yang tervalidasi memakai Node.js 24.18.1 dan npm 10.9.2. Range engine repository menerima npm `>=10.9 <12`, sehingga npm 10.9 pada CI dan npm 11 pada development lokal sama-sama didukung.
+
 Better Auth, `@better-auth/drizzle-adapter`, Drizzle ORM/Kit, dan Zod baru dipasang pada Phase 1. Dokumentasi Drizzle D1 saat audit masih menampilkan contoh package `@rc`; jangan ikuti contoh RC tersebut. Gunakan rilis stabil yang memenuhi peer dependency Better Auth dan review generated auth schema sebelum migration.
 
 ## 4. Next.js OpenNext Configuration
