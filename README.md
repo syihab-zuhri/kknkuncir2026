@@ -4,9 +4,9 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Phase 0 lokal telah tersedia dan tervalidasi. Implementasi authentication, schema aplikasi, QR attendance, dashboard, dan fitur bisnis belum dimulai.
+Baseline Phase 0 telah tersedia, tervalidasi lokal, dan berjalan pada Cloudflare Workers. Implementasi authentication, schema aplikasi, QR attendance, dashboard, dan fitur bisnis belum dimulai.
 
-Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Workers Builds belum diaktifkan dan domain production belum ditempelkan ke Worker.
+Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, dan custom domain `zuhrirey.my.id` sudah aktif. Workers Builds menunggu merge PR Phase 0 ke `main`.
 
 ## Stack Phase 0
 

@@ -20,10 +20,10 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Buat `.dev.vars.example`, `.gitignore`, dan typed Cloudflare environment. `(ref: credential.md)`
 - [x] `[S]` Aktifkan Workers Logs, Traces, dan source maps.
 - [ ] `[S]` Hubungkan Workers Builds ke repo GitHub branch `main`.
-- [ ] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
+- [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-07-31: bootstrap, dua D1 terpisah, dan validation gate lokal selesai di branch `feat/bootstrap-cloudflare`. Dua task eksternal tetap terbuka: menghubungkan Workers Builds dan memasang custom domain setelah Worker production dinyatakan sehat. Tidak ada deployment production pada Phase 0 ini.
+> Status 2026-07-31: bootstrap, dua D1 terpisah, validation gate lokal, Worker preview, Worker production, dan custom domain selesai serta sehat. Satu task eksternal tetap terbuka: Workers Builds baru dihubungkan ke `main` setelah PR #1 direview dan di-merge oleh pemilik repository.
 
 ## Phase 1 — D1 Schema and Authentication
 
