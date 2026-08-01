@@ -1,7 +1,7 @@
 # DEPLOYMENT — Cloudflare Workers
 
-**Document Version**: 1.2.0  
-**Last Updated**: 2026-07-31  
+**Document Version**: 1.3.0
+**Last Updated**: 2026-08-01
 **Status**: Approved Deployment Runbook
 
 ## 1. Deployment Targets
@@ -39,17 +39,17 @@ git remote set-url origin https://github.com/syihab-zuhri/kknkuncir2026.git
 
 ## 3. Required Packages
 
-Phase 0 menggunakan package stabil yang terkunci pada `package-lock.json`:
+Project menggunakan package stabil yang terkunci pada `package-lock.json`:
 
 ```bash
 npm install
 ```
 
-Versi utama Phase 0 adalah Next.js 16.2.12, `@opennextjs/cloudflare` 1.20.2, Wrangler 4.118.0, Vitest 4.1.10, Cloudflare Vitest pool 0.20.1, dan Playwright 1.62.1.
+Versi utama platform adalah Next.js 16.2.12, `@opennextjs/cloudflare` 1.20.2, Wrangler 4.118.0, Vitest 4.1.10, Cloudflare Vitest pool 0.20.1, dan Playwright 1.62.1. Phase 1 menambahkan Better Auth dan adapter Drizzle 1.6.25, Drizzle ORM 0.45.2, Drizzle Kit 0.31.10, serta Zod 4.4.3.
 
 Runtime Workers Builds yang tervalidasi memakai Node.js 24.18.1 dan npm 10.9.2. Range engine repository menerima npm `>=10.9 <12`, sehingga npm 10.9 pada CI dan npm 11 pada development lokal sama-sama didukung.
 
-Better Auth, `@better-auth/drizzle-adapter`, Drizzle ORM/Kit, dan Zod baru dipasang pada Phase 1. Dokumentasi Drizzle D1 saat audit masih menampilkan contoh package `@rc`; jangan ikuti contoh RC tersebut. Gunakan rilis stabil yang memenuhi peer dependency Better Auth dan review generated auth schema sebelum migration.
+Dokumentasi Drizzle D1 saat audit masih menampilkan contoh package `@rc`; contoh RC tersebut sengaja tidak diikuti. Repository memakai rilis stabil yang memenuhi peer dependency Better Auth. Schema auth digenerate memakai exact official CLI `auth@1.6.25`, lalu schema dan SQL migration direview sebelum diterapkan.
 
 ## 4. Next.js OpenNext Configuration
 
@@ -111,32 +111,38 @@ Sebelum kedua resource remote dibuat, repository memakai sentinel UUID yang berb
 
 ```bash
 npm run db:generate
+npm run db:check
 npm run db:migrate:local
+npm run db:migrations:list:preview
+npm run db:migrate:preview
 ```
 
-Before production:
+Repository sengaja tidak menyediakan script singkat untuk migration production agar target tidak tertukar. Setelah review/approval production, gunakan binding top-level secara eksplisit:
 
 ```bash
-npx wrangler d1 migrations list kknkuncir2026-db --remote
-npm run db:migrate:remote
+npx wrangler d1 migrations list DB --remote --env=""
+npx wrangler d1 migrations apply DB --remote --env=""
 ```
 
 Rules:
 
 - Review generated SQL before apply.
 - Test migration against local and preview database first.
+- Jangan menghubungkan preview Worker atau preview migration ke D1 production.
 - Record D1 Time Travel bookmark before high-risk schema changes.
 - Never modify an already-applied production migration.
+
+Status Phase 1 per 2026-08-01: migration telah lulus pada local/preview D1 dan diterapkan ke production D1 setelah recovery bookmark dicatat. Worker Phase 1 belum dideploy dan Admin production belum dibootstrap.
 
 ## 8. Configure Worker Secrets
 
 ```bash
 npx wrangler secret put BETTER_AUTH_SECRET
-npx wrangler secret put QR_SIGNING_SECRET
 npx wrangler secret put BOOTSTRAP_ADMIN_PASSWORD
+npx wrangler secret put BOOTSTRAP_ADMIN_TOKEN
 ```
 
-Verify names only, never print values into logs.
+Set `BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` sebagai non-secret vars hanya saat bootstrap dibutuhkan. Panggil endpoint bootstrap dengan bearer token melalui client yang tidak merekam header, segera ganti password awal, lalu hapus password/token bootstrap dari Worker. `QR_SIGNING_SECRET` belum diperlukan sampai Phase 4. Verify names only, never print values into logs.
 
 ## 9. Connect GitHub to Workers Builds
 
@@ -216,7 +222,7 @@ First deployment commands:
 npm ci
 npm test
 npm run cf:build
-npm run db:migrate:remote
+npx wrangler d1 migrations apply DB --remote --env=""
 git push origin main
 ```
 

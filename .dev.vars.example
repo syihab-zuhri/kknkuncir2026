@@ -1,13 +1,18 @@
 # Copy this file to .dev.vars for local development.
 # Keep every secret value empty until it is generated locally.
 NEXTJS_ENV=development
+APP_NAME=kkndesakuncir
+APP_URL=http://localhost:3000
+APP_TIMEZONE=Asia/Jakarta
 NEXT_PUBLIC_APP_NAME=kkndesakuncir
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_TIMEZONE=Asia/Jakarta
 
-# Reserved for later phases. Never commit populated values.
+# Generate every secret locally. Never commit populated values.
 BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=http://localhost:3000
 QR_SIGNING_SECRET=
 BOOTSTRAP_ADMIN_USERNAME=admin
+BOOTSTRAP_ADMIN_NAME=Administrator
 BOOTSTRAP_ADMIN_PASSWORD=
+BOOTSTRAP_ADMIN_TOKEN=

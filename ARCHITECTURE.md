@@ -1,8 +1,8 @@
 # ARCHITECTURE — kkndesakuncir
 
-**Document Version**: 1.2.0  
-**Last Updated**: 2026-07-31  
-**Status**: Approved Cloudflare Baseline
+**Document Version**: 1.3.0
+**Last Updated**: 2026-08-01
+**Status**: Phase 1 Implemented Architecture
 
 ## 1. Architecture Goals
 
@@ -189,6 +189,10 @@ D1 tidak menyediakan PostgreSQL Row Level Security. Kontrol akses diterapkan ber
 3. **Repository layer** — query ownership selalu menyertakan `user_id` atau `student_id` dari server auth context.
 4. **Database constraints** — unique, foreign key, and check constraints; audit writes are atomic application batches.
 5. **Security tests** — IDOR dan privilege escalation wajib diuji.
+
+### 8.1 Phase 1 Guard Implementation Note
+
+Next.js 16 menjalankan `proxy.ts` pada Node.js runtime, sementara OpenNext Cloudflare 1.20.2 belum mendukung Node Middleware/Proxy. Phase 1 karena itu tidak memakai `proxy.ts` atau `middleware.ts` yang deprecated. Optimistic cookie redirect ditempatkan di server page guard, dan security boundary final tetap berada pada setiap page/route handler melalui session, active/ban state, role, forced-password, serta ownership checks.
 
 Contoh repository Mahasiswa:
 
@@ -464,7 +468,7 @@ Phase 0 mengimplementasikan top-level Wrangler sebagai production Worker bernama
 
 `compatibility_date` dipin ke `2026-07-30`, yaitu tanggal terbaru yang didukung `workerd` yang terkunci bersama Wrangler 4.118.0. D1 production dan preview dibuat terpisah di region hint APAC; `database_id` aktual disimpan sebagai resource identifier pada Wrangler, bukan sebagai credential. `preview_database_id` top-level dan binding named environment preview sama-sama menunjuk D1 preview.
 
-Rate limiter pada Phase 0 baru berupa deklarasi binding. Pemanggilan binding tetap mengikuti phase fitur terkait. Cron sengaja tidak diaktifkan pada Phase 0 karena entrypoint belum memiliki scheduled handler; trigger `5 * * * *` baru ditambahkan bersama implementasi dan pengujian Phase 3 agar deployment baseline tidak menghasilkan invocation gagal.
+Phase 1 mengaktifkan `LOGIN_RATE_LIMITER`; binding rate limiter lain tetap berupa deklarasi sampai phase fitur terkait. Cron sengaja tidak diaktifkan pada Phase 0 karena entrypoint belum memiliki scheduled handler; trigger `5 * * * *` baru ditambahkan bersama implementasi dan pengujian Phase 3 agar deployment baseline tidak menghasilkan invocation gagal.
 
 ## 20. Security Baseline
 

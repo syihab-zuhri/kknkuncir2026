@@ -219,6 +219,77 @@ a {
   font-weight: 700;
 }
 
+.auth-shell {
+  max-width: 46rem;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 2rem;
+}
+
+.auth-form label {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.auth-form input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font: inherit;
+  padding: 0.8rem 0.9rem;
+}
+
+.auth-form input:focus-visible {
+  outline: 3px solid var(--color-primary-100);
+  border-color: var(--color-primary-700);
+}
+
+.auth-form button {
+  min-height: 2.8rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--color-primary-800);
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+}
+
+.auth-form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.form-hint,
+.form-message {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.form-hint {
+  color: var(--color-muted);
+}
+
+.form-message {
+  color: #991b1b;
+  font-weight: 700;
+}
+
 .skeleton {
   overflow: hidden;
   position: relative;

@@ -14,6 +14,12 @@
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "cf:validate": "wrangler deploy --dry-run --env preview",
     "cf:validate:production": "wrangler deploy --dry-run --env=\"\"",
+    "auth:schema": "npx --yes auth@1.6.25 generate --config better-auth.schema-generator.ts --output src/db/schema/auth.ts --adapter drizzle --dialect sqlite --yes",
+    "db:generate": "drizzle-kit generate",
+    "db:check": "drizzle-kit check",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local --env preview",
+    "db:migrate:preview": "wrangler d1 migrations apply DB --remote --env preview",
+    "db:migrations:list:preview": "wrangler d1 migrations list DB --remote --env preview",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview --port 8787",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env=\"\"",
     "deploy:preview": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env preview",
@@ -25,23 +31,29 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test e2e/health.spec.ts --project=chromium",
-    "test:ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run cf:build",
+    "test:ci": "npm run lint && npm run typecheck && npm run test && npm run db:check && npm run build && npm run cf:build",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "1.6.25",
+    "better-auth": "1.6.25",
+    "drizzle-orm": "0.45.2",
     "next": "16.2.12",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.20.1",
+    "@cloudflare/workers-types": "5.20260801.1",
     "@opennextjs/cloudflare": "1.20.2",
     "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "prettier": "3.9.6",
@@ -50,5 +62,10 @@
     "typescript": "^5",
     "vitest": "4.1.10",
     "wrangler": "4.118.0"
+  },
+  "overrides": {
+    "adm-zip": "0.6.0",
+    "postcss": "8.5.25",
+    "sharp": "0.35.3"
   }
 }

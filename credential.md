@@ -1,8 +1,8 @@
 # credential — Environment & Cloudflare Services Template
 
-**Document Version**: 1.2.0  
-**Last Updated**: 2026-07-31  
-**Status**: Phase 0 Implemented Template
+**Document Version**: 1.3.0
+**Last Updated**: 2026-08-01
+**Status**: Phase 1 Implemented Template
 
 > File ini hanya mendokumentasikan nama variable dan prosedur setup. Secret asli maupun nilai secret contoh tidak boleh ditaruh di Git.
 
@@ -22,6 +22,9 @@ Repository hanya menyimpan `.dev.vars.example`. Salin secara lokal menjadi `.dev
 
 ```dotenv
 NEXTJS_ENV=development
+APP_NAME=kkndesakuncir
+APP_URL=http://localhost:3000
+APP_TIMEZONE=Asia/Jakarta
 NEXT_PUBLIC_APP_NAME=kkndesakuncir
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_TIMEZONE=Asia/Jakarta
@@ -30,10 +33,12 @@ BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=http://localhost:3000
 QR_SIGNING_SECRET=
 BOOTSTRAP_ADMIN_USERNAME=admin
+BOOTSTRAP_ADMIN_NAME=Administrator
 BOOTSTRAP_ADMIN_PASSWORD=
+BOOTSTRAP_ADMIN_TOKEN=
 ```
 
-Nilai kosong pada template disengaja. `BETTER_AUTH_SECRET`, `QR_SIGNING_SECRET`, dan `BOOTSTRAP_ADMIN_PASSWORD` baru diisi pada phase fitur yang membutuhkannya.
+Nilai kosong pada template disengaja. Phase 1 memerlukan `BETTER_AUTH_SECRET`, `BOOTSTRAP_ADMIN_PASSWORD`, dan token terpisah `BOOTSTRAP_ADMIN_TOKEN`. `QR_SIGNING_SECRET` tetap belum digunakan sampai phase QR.
 
 ## 3. Production Worker Secrets
 
@@ -41,9 +46,11 @@ Set secret melalui input interaktif Wrangler:
 
 ```bash
 npx wrangler secret put BETTER_AUTH_SECRET
-npx wrangler secret put QR_SIGNING_SECRET
 npx wrangler secret put BOOTSTRAP_ADMIN_PASSWORD
+npx wrangler secret put BOOTSTRAP_ADMIN_TOKEN
 ```
+
+`BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` adalah konfigurasi non-secret yang harus ditetapkan per environment saat bootstrap dijalankan. Setelah bootstrap berhasil dan password awal telah diganti, hapus password/token bootstrap dari Worker sesuai runbook. `QR_SIGNING_SECRET` baru ditambahkan pada phase QR.
 
 Jangan simpan nilai secret pada `wrangler.jsonc`, Workers Builds build variables, GitHub variables, issue, atau log CI.
 
@@ -56,7 +63,9 @@ Jangan simpan nilai secret pada `wrangler.jsonc`, Workers Builds build variables
   "vars": {
     "APP_NAME": "kkndesakuncir",
     "APP_URL": "https://zuhrirey.my.id",
-    "APP_TIMEZONE": "Asia/Jakarta"
+    "APP_TIMEZONE": "Asia/Jakarta",
+    "BOOTSTRAP_ADMIN_USERNAME": "admin",
+    "BOOTSTRAP_ADMIN_NAME": "Administrator"
   }
 }
 ```
@@ -67,9 +76,9 @@ Bindings adalah izin/resource handle, bukan string credential.
 
 | Binding | Type | Phase | Purpose |
 |---|---|---:|---|
-| `DB` | D1 | 0 | Auth dan application database pada phase berikutnya |
+| `DB` | D1 | 1 | Better Auth dan application schema |
 | `ASSETS` | Workers Static Assets | 0 | Aset hasil OpenNext |
-| `LOGIN_RATE_LIMITER` | Rate Limit | 0 declaration | Login abuse protection pada Phase 1 |
+| `LOGIN_RATE_LIMITER` | Rate Limit | 1 active | Login abuse protection berdasarkan hash NIM |
 | `SELF_SCAN_RATE_LIMITER` | Rate Limit | 0 declaration | Self-scan protection pada Phase 4 |
 | `ADMIN_SCAN_RATE_LIMITER` | Rate Limit | 0 declaration | Admin scanner protection pada Phase 4 |
 | `ADMIN_MUTATION_RATE_LIMITER` | Rate Limit | 0 declaration | Sensitive Admin mutations pada phase fitur |
@@ -85,14 +94,14 @@ Output `cloudflare-env.d.ts` di-commit dan harus digenerate ulang setiap kali bi
 
 ## 6. Cloudflare Resources
 
-| Service | Resource | Status Phase 0 |
+| Service | Resource | Status 2026-08-01 |
 |---|---|---|
-| Workers | `kknkuncir2026` | Configured, not deployed |
-| D1 Production | `kknkuncir2026-db` | Created |
-| D1 Preview | `kknkuncir2026-preview-db` | Created |
-| Workers Builds | GitHub `syihab-zuhri/kknkuncir2026`, branch `main` | Pending |
-| Custom Domain | `zuhrirey.my.id` | Pending healthy Worker |
-| Observability | Workers Logs and Traces | Configured, effective after deploy |
+| Workers | `kknkuncir2026` | Production Phase 0 healthy; Phase 1 not deployed |
+| D1 Production | `kknkuncir2026-db` | Phase 1 migration applied; Admin not bootstrapped |
+| D1 Preview | `kknkuncir2026-preview-db` | Phase 1 migration applied |
+| Workers Builds | GitHub `syihab-zuhri/kknkuncir2026`, branch `main` | Connected |
+| Custom Domain | `zuhrirey.my.id` | Active on Phase 0 Worker |
+| Observability | Workers Logs and Traces | Active |
 | R2 | `kknkuncir2026-attachments` | P1, not created |
 
 ## 7. Environment Separation

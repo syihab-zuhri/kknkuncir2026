@@ -4,11 +4,11 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Baseline Phase 0 telah tersedia, tervalidasi lokal, dan berjalan pada Cloudflare Workers. Implementasi authentication, schema aplikasi, QR attendance, dashboard, dan fitur bisnis belum dimulai.
+Phase 0 dan Phase 1 telah tersedia. Baseline Cloudflare berjalan di production, sedangkan schema D1 Phase 1 sudah tervalidasi pada Workers runtime dan diterapkan ke D1 lokal, preview, serta production. Worker production masih menjalankan aplikasi Phase 0 sampai rollout Phase 1 selesai. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
 
 Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, custom domain `zuhrirey.my.id` sudah aktif, dan Workers Builds terhubung ke GitHub branch `main`.
 
-## Stack Phase 0
+## Stack aktif
 
 - Next.js 16 App Router, React 19, dan TypeScript strict.
 - Tailwind CSS 4 dan ESLint 9.
@@ -16,6 +16,9 @@ Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID bi
 - Vitest dengan runtime pool Cloudflare dan D1 lokal terisolasi.
 - Playwright Chromium untuk smoke test Worker-compatible preview.
 - Prettier dan scripts lint/typecheck/build/deploy.
+- Drizzle ORM 0.45.2 dan Drizzle Kit 0.31.10 untuk schema SQLite/D1.
+- Better Auth 1.6.25 dengan D1 adapter, Username plugin, dan Admin plugin.
+- Zod 4.4.3 untuk validasi kontrak API.
 
 ## Menjalankan lokal
 
@@ -24,6 +27,7 @@ Gunakan Node.js 24 dan npm 10.9 atau 11.
 ```bash
 npm ci
 npm run cf:typegen
+npm run db:migrate:local
 npm run dev
 ```
 
@@ -43,6 +47,7 @@ Preview memakai environment `preview`, URL `http://127.0.0.1:8787`, dan binding 
 npm run lint
 npm run typecheck
 npm test
+npm run db:check
 npm run build
 npm run cf:build
 npm run cf:validate
@@ -55,6 +60,7 @@ npm run test:smoke
 ## Deployment safety
 
 - Jangan jalankan `npm run deploy` sebelum secrets, migrations, dan seluruh gate deployment ditinjau.
+- Migration Phase 1 sudah diterapkan ke production setelah local/preview validation dan recovery bookmark; migration production berikutnya tetap harus melalui runbook yang sama.
 - Top-level Wrangler adalah production Worker `kknkuncir2026`; named environment `preview` menghasilkan Worker preview terpisah.
 - `.dev.vars` dan seluruh `.env*` lokal di-ignore. Hanya `.dev.vars.example` yang boleh di-commit.
 - Production deploy berasal dari branch `main` melalui Workers Builds setelah konfigurasi eksternal selesai.
