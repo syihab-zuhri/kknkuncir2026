@@ -8,7 +8,8 @@ export const metadata: Metadata = { title: "Ganti password" };
 
 export default async function ChangePasswordPage() {
   const session = await requirePasswordChangeSession();
-  const destination = session.user.role === "ADMIN" ? "/admin" : "/me";
+  const destination =
+    session.user.role === "ADMIN" ? "/admin" : "/student/profile";
 
   return (
     <main className="shell auth-shell">
