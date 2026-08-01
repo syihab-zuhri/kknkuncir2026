@@ -58,6 +58,12 @@ npm run cf:validate:production
 npm run test:smoke
 ```
 
+Untuk smoke Worker yang sudah dideploy tanpa menyalakan preview lokal:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://worker-preview.example.workers.dev npm run test:smoke
+```
+
 `cf:validate` dan `cf:validate:production` hanya menjalankan Wrangler `--dry-run`; keduanya tidak mengunggah Worker.
 
 ## Deployment safety
