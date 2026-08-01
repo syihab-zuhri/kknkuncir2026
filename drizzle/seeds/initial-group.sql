@@ -76,4 +76,3 @@ WHERE g.id = 'kkn-desa-kuncir-2026'
       AND entity_type = 'group_settings'
       AND entity_id = g.id
   );
-
