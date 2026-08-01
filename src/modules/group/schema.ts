@@ -57,12 +57,11 @@ export const groupSettingsInputSchema = z
     }),
   })
   .superRefine((value, context) => {
-    if (value.periodEnd < value.periodStart) {
+    if (value.periodEnd <= value.periodStart) {
       context.addIssue({
         code: "custom",
         path: ["periodEnd"],
-        message:
-          "Tanggal selesai harus setelah atau sama dengan tanggal mulai.",
+        message: "Tanggal selesai harus setelah tanggal mulai.",
       });
     }
 

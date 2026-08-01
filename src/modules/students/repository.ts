@@ -90,7 +90,9 @@ export async function findStudentDetail(
   studentId: string,
   ownerUserId?: string,
 ): Promise<StudentDetailDto | null> {
-  const ownership = ownerUserId ? "AND s.user_id = ?" : "";
+  const ownership = ownerUserId
+    ? "AND s.user_id = ? AND u.is_active = 1 AND coalesce(u.banned, 0) = 0"
+    : "";
   const parameters = ownerUserId ? [studentId, ownerUserId] : [studentId];
   const row = await binding
     .prepare(
@@ -132,6 +134,7 @@ export async function findStudentByUserId(
        INNER JOIN user u ON u.id = s.user_id
        INNER JOIN group_settings g ON g.id = s.group_id
        WHERE s.user_id = ? AND s.deleted_at IS NULL
+         AND u.is_active = 1 AND coalesce(u.banned, 0) = 0
        LIMIT 1`,
     )
     .bind(userId)

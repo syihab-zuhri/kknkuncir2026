@@ -138,6 +138,24 @@ describe("Phase 2 group settings", () => {
     );
   });
 
+  it("requires the group period to span at least two dates", () => {
+    const invalid = groupSettingsInputSchema.safeParse({
+      name: "KKN Desa Kuncir 2026",
+      periodStart: "2026-08-01",
+      periodEnd: "2026-08-01",
+      dailyPolicy: {
+        autoCreate: false,
+        startTime: "07:00",
+        endTime: "17:00",
+        lateTime: "07:15",
+        defaultMode: "SELF_SCAN",
+      },
+    });
+
+    expect(invalid.success).toBe(false);
+    expect(invalid.error?.issues[0]?.path).toEqual(["periodEnd"]);
+  });
+
   it("updates the singleton group and appends an audit", async () => {
     const updated = await updateGroupSettings(env.DB, "admin", {
       name: "KKN Kuncir Angkatan 2026",
@@ -189,6 +207,10 @@ describe("Phase 2 student management", () => {
 
     expect(own?.nim).toBe("001");
     expect(other).toBeNull();
+  });
+
+  it("does not return an inactive profile through the owner query", async () => {
+    expect(await findStudentDetail(env.DB, "student-b", "user-b")).toBeNull();
   });
 
   it("locks NIM after attendance exists", async () => {
