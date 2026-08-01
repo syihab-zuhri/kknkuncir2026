@@ -251,7 +251,7 @@ npm run db:seed:preview
 Preview tanpa Admin akan menghasilkan no-op; jangan membuat credential palsu untuk memaksanya. Sebelum production seed, catat recovery bookmark D1 lalu jalankan file yang sama secara eksplisit:
 
 ```bash
-npx wrangler d1 time-travel info DB --remote --env=""
+npx wrangler d1 time-travel info DB --env="" --json
 npx wrangler d1 execute DB --remote --env="" --file drizzle/seeds/initial-group.sql
 npx wrangler d1 execute DB --remote --env="" --command "SELECT id, name, period_start, period_end, daily_auto_create FROM group_settings WHERE is_active = 1" --json
 ```

@@ -16,6 +16,7 @@
 
 ### Changed
 
+- Runbook Time Travel diselaraskan dengan Wrangler 4.118.0: subcommand tersebut selalu remote dan tidak menerima flag `--remote`.
 - Login dan forced password change Mahasiswa kini diarahkan ke `/student/profile`; `/me` dipertahankan sebagai redirect kompatibilitas.
 - Response API sensitif memakai `Cache-Control: private, no-store`.
 - Periode kelompok wajib memiliki `period_end` setelah `period_start`; NIM terkunci setelah memiliki attendance.
@@ -25,6 +26,8 @@
 
 - 24 Vitest tests, lint, strict typecheck, Drizzle schema check, Next.js 16 production build, OpenNext Cloudflare bundle, Wrangler preview/production dry-run, dan enam Playwright Worker smoke tests berhasil.
 - D1 preview dan production diperiksa secara read-only: preview tidak memiliki Admin; production memiliki satu Admin aktif dan belum memiliki group aktif sebelum seed.
+- Worker preview Phase 2 dideploy dan seluruh enam smoke test dijalankan ulang terhadap URL workers.dev remote dengan hasil lulus.
+- Recovery bookmark D1 production dicatat sebelum seed; group awal dan audit `GROUP_SEEDED` kemudian terverifikasi tanpa mengaktifkan daily auto-create.
 
 ### Known Limitations
 
