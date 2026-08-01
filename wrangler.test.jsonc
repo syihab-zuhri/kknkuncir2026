@@ -4,11 +4,38 @@
   "main": "test/worker.ts",
   "compatibility_date": "2026-07-30",
   "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "APP_NAME": "kkndesakuncir-test",
+    "APP_URL": "http://localhost",
+    "APP_TIMEZONE": "Asia/Jakarta",
+  },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "kknkuncir2026-test-db",
       "database_id": "22222222-2222-2222-2222-222222222222",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "LOGIN_RATE_LIMITER",
+      "namespace_id": "3001",
+      "simple": { "limit": 5, "period": 60 },
+    },
+    {
+      "name": "SELF_SCAN_RATE_LIMITER",
+      "namespace_id": "3002",
+      "simple": { "limit": 10, "period": 60 },
+    },
+    {
+      "name": "ADMIN_SCAN_RATE_LIMITER",
+      "namespace_id": "3003",
+      "simple": { "limit": 120, "period": 60 },
+    },
+    {
+      "name": "ADMIN_MUTATION_RATE_LIMITER",
+      "namespace_id": "3004",
+      "simple": { "limit": 30, "period": 60 },
     },
   ],
 }
