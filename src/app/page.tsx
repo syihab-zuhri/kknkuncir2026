@@ -3,7 +3,7 @@ import Link from "next/link";
 const infrastructure = [
   { label: "Runtime", value: "Cloudflare Workers + OpenNext" },
   { label: "Framework", value: "Next.js App Router" },
-  { label: "Data", value: "D1 binding declared, not provisioned" },
+  { label: "Data", value: "Cloudflare D1 + Drizzle ORM" },
 ] as const;
 
 export default function Home() {
@@ -11,19 +11,24 @@ export default function Home() {
     <main className="shell">
       <section className="hero" aria-labelledby="page-title">
         <div>
-          <p className="eyebrow">Phase 0 · Infrastructure baseline</p>
-          <h1 id="page-title">Fondasi aplikasi sudah siap diuji.</h1>
+          <p className="eyebrow">Phase 1 · Auth &amp; data foundation</p>
+          <h1 id="page-title">Fondasi akun sudah siap diuji.</h1>
         </div>
 
         <div>
           <p className="lede">
-            Bootstrap Next.js untuk Cloudflare Workers telah tersedia.
-            Autentikasi, schema aplikasi, dan fitur kehadiran sengaja belum
-            diaktifkan pada fase ini.
+            Schema D1, Better Auth, login NIM, dan kontrol akses server-side
+            sudah tersedia. Fitur kehadiran tetap belum diaktifkan pada fase
+            ini.
           </p>
-          <Link className="status-link" href="/health">
-            Periksa status aplikasi
-          </Link>
+          <div className="action-row">
+            <Link className="status-link" href="/health">
+              Periksa status aplikasi
+            </Link>
+            <Link className="status-link" href="/login">
+              Masuk
+            </Link>
+          </div>
         </div>
       </section>
 
