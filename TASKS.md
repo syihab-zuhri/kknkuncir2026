@@ -23,7 +23,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-08-01: seluruh Phase 0 dan implementasi Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal, preview, dan production setelah recovery bookmark dicatat. Worker Phase 1 telah dideploy melalui Workers Builds; Admin production telah dibootstrap dan masih wajib mengganti password awal.
+> Status 2026-08-01: seluruh Phase 0 dan implementasi Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal, preview, dan production setelah recovery bookmark dicatat. Worker Phase 1 telah dideploy melalui Workers Builds; Admin production telah dibootstrap dan menyelesaikan penggantian password awal.
 
 ## Phase 1 — D1 Schema and Authentication
 
@@ -128,7 +128,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Verify Worker deployment before attaching domain.
 - [x] `[S]` Attach custom domain `zuhrirey.my.id`.
 - [ ] `[M]` Execute complete smoke test checklist.
-- [ ] `[S]` Change bootstrap Admin password dan revoke bootstrap sessions.
+- [x] `[S]` Change bootstrap Admin password dan revoke bootstrap sessions.
 - [ ] `[S]` Verify Cron execution in Workers Logs.
 - [ ] `[S]` Verify logs contain request IDs and no secrets/precise location.
 - [ ] `[S]` Record current healthy Worker version and D1 recovery point.

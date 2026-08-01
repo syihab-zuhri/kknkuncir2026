@@ -151,7 +151,7 @@ Checkpoint rollout production 2026-08-01:
 - D1 berisi tepat satu Admin aktif dengan `must_change_password=1` dan satu audit `ADMIN_BOOTSTRAPPED`;
 - secret `BOOTSTRAP_ADMIN_PASSWORD` dan `BOOTSTRAP_ADMIN_TOKEN` telah dihapus; hanya `BETTER_AUTH_SECRET` yang tersisa;
 - endpoint bootstrap tertutup kembali dengan HTTP 503 karena secret setup sudah tidak tersedia;
-- login pertama dan penggantian password awal Admin masih harus diselesaikan pemilik credential.
+- penggantian password awal Admin terverifikasi melalui `must_change_password=0`, satu audit `PASSWORD_CHANGED`, dan satu session aktif setelah session lain direvoke.
 
 ## 9. Connect GitHub to Workers Builds
 

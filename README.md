@@ -4,7 +4,7 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Phase 0 dan Phase 1 telah tersedia di production. Schema D1 Phase 1 sudah tervalidasi pada Workers runtime dan diterapkan ke D1 lokal, preview, serta production. Worker Phase 1 dideploy dari merge commit `bdfa8a0` melalui Workers Builds. Admin production sudah dibootstrap satu kali dan diwajibkan mengganti password awal. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
+Phase 0 dan Phase 1 telah tersedia di production. Schema D1 Phase 1 sudah tervalidasi pada Workers runtime dan diterapkan ke D1 lokal, preview, serta production. Worker Phase 1 dideploy dari merge commit `bdfa8a0` melalui Workers Builds. Admin production sudah dibootstrap satu kali dan telah menyelesaikan penggantian password awal. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
 
 Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, custom domain `zuhrirey.my.id` sudah aktif, dan Workers Builds terhubung ke GitHub branch `main`. Setelah bootstrap, secret password/token sementara telah dihapus; hanya `BETTER_AUTH_SECRET` yang dipertahankan.
 

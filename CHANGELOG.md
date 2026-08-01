@@ -14,9 +14,9 @@
 - Secret bootstrap password/token dihapus setelah pembuatan akun; daftar secret Worker kini hanya memuat `BETTER_AUTH_SECRET`.
 - Endpoint bootstrap terverifikasi tertutup kembali setelah secret sementara dihapus.
 
-### Pending Operator Validation
+### Operator Validation
 
-- Pemilik credential harus menyelesaikan login pertama dan mengganti password awal Admin sebelum checklist auth production dinyatakan lengkap.
+- Login pertama dan penggantian password awal Admin berhasil; D1 memuat `must_change_password=0`, satu audit `PASSWORD_CHANGED`, dan satu session aktif setelah session lain direvoke.
 
 ## 2026-08-01 — Version 1.3.0
 
