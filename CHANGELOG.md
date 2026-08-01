@@ -1,7 +1,22 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.3.0
+**Document Version**: 1.3.1
 **Last Updated**: 2026-08-01
+
+## 2026-08-01 — Version 1.3.1
+
+### Production Rollout
+
+- Migration Phase 1 diterapkan ke D1 production setelah recovery bookmark dicatat.
+- Pull request Phase 1 digabung ke `main`; Workers Builds berhasil menguji, membangun, dan mendeploy merge commit `bdfa8a0`.
+- Endpoint production `/health` dan `/login` terverifikasi HTTP 200; halaman `/admin` menolak pengguna anonim melalui redirect Next.js ke `/login`.
+- Satu akun Admin aktif berhasil dibootstrap dengan kewajiban mengganti password awal, dan audit `ADMIN_BOOTSTRAPPED` terverifikasi di D1.
+- Secret bootstrap password/token dihapus setelah pembuatan akun; daftar secret Worker kini hanya memuat `BETTER_AUTH_SECRET`.
+- Endpoint bootstrap terverifikasi tertutup kembali setelah secret sementara dihapus.
+
+### Pending Operator Validation
+
+- Pemilik credential harus menyelesaikan login pertama dan mengganti password awal Admin sebelum checklist auth production dinyatakan lengkap.
 
 ## 2026-08-01 — Version 1.3.0
 

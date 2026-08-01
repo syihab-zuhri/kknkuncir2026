@@ -1,8 +1,8 @@
 # credential — Environment & Cloudflare Services Template
 
-**Document Version**: 1.3.0
+**Document Version**: 1.3.1
 **Last Updated**: 2026-08-01
-**Status**: Phase 1 Implemented Template
+**Status**: Phase 1 Production Active
 
 > File ini hanya mendokumentasikan nama variable dan prosedur setup. Secret asli maupun nilai secret contoh tidak boleh ditaruh di Git.
 
@@ -50,7 +50,7 @@ npx wrangler secret put BOOTSTRAP_ADMIN_PASSWORD
 npx wrangler secret put BOOTSTRAP_ADMIN_TOKEN
 ```
 
-`BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` adalah konfigurasi non-secret yang harus ditetapkan per environment saat bootstrap dijalankan. Setelah bootstrap berhasil dan password awal telah diganti, hapus password/token bootstrap dari Worker sesuai runbook. `QR_SIGNING_SECRET` baru ditambahkan pada phase QR.
+`BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` adalah konfigurasi non-secret yang harus ditetapkan per environment saat bootstrap dijalankan. Setelah bootstrap berhasil, hapus password/token bootstrap dari Worker sesuai runbook dan wajibkan Admin mengganti password awal pada login pertama. Di production, kedua secret bootstrap sudah dihapus dan hanya `BETTER_AUTH_SECRET` yang tersisa. `QR_SIGNING_SECRET` baru ditambahkan pada phase QR.
 
 Jangan simpan nilai secret pada `wrangler.jsonc`, Workers Builds build variables, GitHub variables, issue, atau log CI.
 
@@ -96,11 +96,11 @@ Output `cloudflare-env.d.ts` di-commit dan harus digenerate ulang setiap kali bi
 
 | Service | Resource | Status 2026-08-01 |
 |---|---|---|
-| Workers | `kknkuncir2026` | Production Phase 0 healthy; Phase 1 not deployed |
-| D1 Production | `kknkuncir2026-db` | Phase 1 migration applied; Admin not bootstrapped |
+| Workers | `kknkuncir2026` | Phase 1 deployed and healthy |
+| D1 Production | `kknkuncir2026-db` | Phase 1 migration applied; one Admin bootstrapped; password change required |
 | D1 Preview | `kknkuncir2026-preview-db` | Phase 1 migration applied |
 | Workers Builds | GitHub `syihab-zuhri/kknkuncir2026`, branch `main` | Connected |
-| Custom Domain | `zuhrirey.my.id` | Active on Phase 0 Worker |
+| Custom Domain | `zuhrirey.my.id` | Active on Phase 1 Worker |
 | Observability | Workers Logs and Traces | Active |
 | R2 | `kknkuncir2026-attachments` | P1, not created |
 

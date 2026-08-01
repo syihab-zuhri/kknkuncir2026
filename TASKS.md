@@ -1,6 +1,6 @@
 # TASKS — Execution Checklist: kkndesakuncir
 
-**Document Version**: 1.3.0
+**Document Version**: 1.3.1
 **Last Updated**: 2026-08-01
 **Status**: Phase 0–1 Complete; Phase 2 Pending
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`
@@ -23,7 +23,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-08-01: seluruh Phase 0 dan Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal, preview, dan production setelah recovery bookmark dicatat. Worker production belum diubah oleh rollout Phase 1.
+> Status 2026-08-01: seluruh Phase 0 dan implementasi Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal, preview, dan production setelah recovery bookmark dicatat. Worker Phase 1 telah dideploy melalui Workers Builds; Admin production telah dibootstrap dan masih wajib mengganti password awal.
 
 ## Phase 1 — D1 Schema and Authentication
 
@@ -121,12 +121,12 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 
 ## Phase 8 — Production Deployment
 
-- [ ] `[S]` Review production `wrangler.jsonc`. `(ref: DEPLOYMENT.md)`
-- [ ] `[S]` Set Worker secrets melalui Wrangler.
-- [ ] `[S]` Apply production D1 migrations setelah backup bookmark dicatat.
-- [ ] `[S]` Push tested commit ke `main` dan verify Workers Build.
-- [ ] `[S]` Verify Worker deployment before attaching domain.
-- [ ] `[S]` Attach custom domain `zuhrirey.my.id`.
+- [x] `[S]` Review production `wrangler.jsonc`. `(ref: DEPLOYMENT.md)`
+- [x] `[S]` Set Worker secrets melalui Wrangler.
+- [x] `[S]` Apply production D1 migrations setelah backup bookmark dicatat.
+- [x] `[S]` Push tested commit ke `main` dan verify Workers Build.
+- [x] `[S]` Verify Worker deployment before attaching domain.
+- [x] `[S]` Attach custom domain `zuhrirey.my.id`.
 - [ ] `[M]` Execute complete smoke test checklist.
 - [ ] `[S]` Change bootstrap Admin password dan revoke bootstrap sessions.
 - [ ] `[S]` Verify Cron execution in Workers Logs.
