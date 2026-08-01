@@ -132,7 +132,7 @@ Rules:
 - Record D1 Time Travel bookmark before high-risk schema changes.
 - Never modify an already-applied production migration.
 
-Status Phase 1 per 2026-08-01: migration telah lulus pada local D1 dan diterapkan ke preview D1. Migration belum diterapkan ke production D1.
+Status Phase 1 per 2026-08-01: migration telah lulus pada local/preview D1 dan diterapkan ke production D1 setelah recovery bookmark dicatat. Worker Phase 1 belum dideploy dan Admin production belum dibootstrap.
 
 ## 8. Configure Worker Secrets
 

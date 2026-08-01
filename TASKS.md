@@ -23,7 +23,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-08-01: seluruh Phase 0 dan Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal dan preview saja; D1 production dan Worker production belum diubah oleh Phase 1.
+> Status 2026-08-01: seluruh Phase 0 dan Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal, preview, dan production setelah recovery bookmark dicatat. Worker production belum diubah oleh rollout Phase 1.
 
 ## Phase 1 — D1 Schema and Authentication
 

@@ -97,7 +97,7 @@ Output `cloudflare-env.d.ts` di-commit dan harus digenerate ulang setiap kali bi
 | Service | Resource | Status 2026-08-01 |
 |---|---|---|
 | Workers | `kknkuncir2026` | Production Phase 0 healthy; Phase 1 not deployed |
-| D1 Production | `kknkuncir2026-db` | Created; Phase 1 migration not applied |
+| D1 Production | `kknkuncir2026-db` | Phase 1 migration applied; Admin not bootstrapped |
 | D1 Preview | `kknkuncir2026-preview-db` | Phase 1 migration applied |
 | Workers Builds | GitHub `syihab-zuhri/kknkuncir2026`, branch `main` | Connected |
 | Custom Domain | `zuhrirey.my.id` | Active on Phase 0 Worker |

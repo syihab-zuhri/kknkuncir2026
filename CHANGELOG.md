@@ -26,7 +26,7 @@
 ### Validation
 
 - Install dependency, format, lint, strict typecheck, 13 Vitest tests, Drizzle schema check, local/preview migration, Next.js build, OpenNext build, Wrangler dry-run, dan Worker-compatible Playwright smoke berhasil.
-- Preview D1 menerima migration Phase 1; production D1 dan Worker production tidak diubah.
+- Preview dan production D1 menerima migration Phase 1 setelah local validation serta pencatatan recovery bookmark; Worker production belum diubah.
 
 ### Known Limitations
 
@@ -35,7 +35,7 @@
 
 ### Deferred
 
-- Secret production, migration production, Admin bootstrap production, merge ke `main`, dan deployment Phase 1 menunggu review serta instruksi eksplisit.
+- Secret production, Admin bootstrap production, merge ke `main`, dan deployment Worker Phase 1 menunggu penyelesaian rollout terkontrol.
 
 ## 2026-07-31 — Version 1.2.1
 

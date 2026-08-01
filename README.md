@@ -4,7 +4,7 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Phase 0 dan Phase 1 telah tersedia. Baseline Cloudflare berjalan di production, sedangkan schema D1 dan authentication Phase 1 sudah tervalidasi pada Workers runtime serta diterapkan hanya ke D1 lokal dan preview. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
+Phase 0 dan Phase 1 telah tersedia. Baseline Cloudflare berjalan di production, sedangkan schema D1 Phase 1 sudah tervalidasi pada Workers runtime dan diterapkan ke D1 lokal, preview, serta production. Worker production masih menjalankan aplikasi Phase 0 sampai rollout Phase 1 selesai. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
 
 Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, custom domain `zuhrirey.my.id` sudah aktif, dan Workers Builds terhubung ke GitHub branch `main`.
 
@@ -60,7 +60,7 @@ npm run test:smoke
 ## Deployment safety
 
 - Jangan jalankan `npm run deploy` sebelum secrets, migrations, dan seluruh gate deployment ditinjau.
-- Jangan menerapkan migration production saat mengembangkan Phase 1; script repository hanya menyediakan migration lokal dan preview.
+- Migration Phase 1 sudah diterapkan ke production setelah local/preview validation dan recovery bookmark; migration production berikutnya tetap harus melalui runbook yang sama.
 - Top-level Wrangler adalah production Worker `kknkuncir2026`; named environment `preview` menghasilkan Worker preview terpisah.
 - `.dev.vars` dan seluruh `.env*` lokal di-ignore. Hanya `.dev.vars.example` yang boleh di-commit.
 - Production deploy berasal dari branch `main` melalui Workers Builds setelah konfigurasi eksternal selesai.
