@@ -258,6 +258,14 @@ npx wrangler d1 execute DB --remote --env="" --command "SELECT id, name, period_
 
 Expected baseline: `KKN Desa Kuncir 2026`, periode `2026-01-01` sampai `2026-12-31`, dan `daily_auto_create=0`. Admin wajib mengoreksi periode/jadwal nyata melalui `/admin/settings/group` sebelum scheduled handler Phase 3 diaktifkan.
 
+Checkpoint production Phase 2 pada 2026-08-01:
+
+- recovery bookmark dicatat sebelum seed production;
+- PR #6 digabung sebagai `8ce338b`;
+- Workers Builds menyelesaikan build/deploy dengan outcome `success`;
+- deployment version `8117212f-5fd4-4709-a19c-297e04d69ff7` menerima 100% traffic;
+- health, login, authorization guards, enam smoke browser, group D1, dan audit seed terverifikasi.
+
 ## 14. Smoke Test Checklist
 
 - [ ] `https://zuhrirey.my.id` returns application, not placeholder/error.
