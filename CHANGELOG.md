@@ -1,7 +1,40 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.2.1
-**Last Updated**: 2026-07-31
+**Document Version**: 1.3.0
+**Last Updated**: 2026-08-01
+
+## 2026-08-01 — Version 1.3.0
+
+### Added
+
+- Schema D1 Phase 1 untuk Better Auth, group, student, QR credential, attendance, correction audit, dan application audit log dengan foreign key, CHECK, unique, serta partial indexes yang sesuai SQLite/D1.
+- Better Auth 1.6.25 dengan Drizzle D1 adapter, Username plugin, custom two-role access control (`ADMIN` dan `STUDENT`), request-scoped server factory, dan secure cookie settings.
+- API login berbasis NIM, session, logout, forced password change, one-time Admin bootstrap, student provisioning, reset password, activate/deactivate, session revocation, dan audit logging.
+- Server-side page/API authorization yang memeriksa session, role, status akun, kewajiban ganti password, dan soft-delete student.
+- Cloudflare Rate Limiting pada login menggunakan identifier NIM yang di-hash sebelum diteruskan ke binding.
+- Unit/integration tests yang menjalankan migration aktual pada D1 lokal, termasuk role constraint, atomic attendance correction/audit, auth policy, dan baseline Playwright untuk halaman publik/protected.
+
+### Changed
+
+- Package stabil dipin ke Better Auth 1.6.25, `@better-auth/drizzle-adapter` 1.6.25, Drizzle ORM 0.45.2, Drizzle Kit 0.31.10, Zod 4.4.3, dan Workers types 5.20260801.1.
+- Official Better Auth CLI dijalankan secara exact melalui `auth@1.6.25` hanya saat generate schema; package CLI tidak disimpan sebagai dependency runtime.
+- Contoh Drizzle D1 yang merekomendasikan tag RC tidak diikuti karena blueprint melarang pre-release; versi stabil yang peer-compatible digunakan.
+- Next.js 16 `proxy.ts` tidak digunakan karena Proxy selalu memakai Node runtime sementara OpenNext 1.20.2 belum mendukung Node Middleware. Proteksi nyata tetap dilakukan pada server page guards dan setiap API handler; optimistic cookie check hanya mengurangi render yang tidak perlu.
+- Override stabil `adm-zip`, PostCSS, dan Sharp diterapkan untuk menghilangkan temuan high-severity tanpa downgrade/breaking package.
+
+### Validation
+
+- Install dependency, format, lint, strict typecheck, 13 Vitest tests, Drizzle schema check, local/preview migration, Next.js build, OpenNext build, Wrangler dry-run, dan Worker-compatible Playwright smoke berhasil.
+- Preview D1 menerima migration Phase 1; production D1 dan Worker production tidak diubah.
+
+### Known Limitations
+
+- Audit dependency menyisakan empat moderate findings pada esbuild lama yang hanya transitif melalui Drizzle Kit development tooling. Saran otomatis npm memerlukan downgrade Drizzle Kit yang breaking dan tidak diterapkan.
+- Build Windows memakai fallback WebAssembly SWC karena native binary tidak dapat dimuat; Next.js dan OpenNext build tetap berhasil. OpenNext juga masih memberi peringatan bahwa dukungan Windows belum penuh.
+
+### Deferred
+
+- Secret production, migration production, Admin bootstrap production, merge ke `main`, dan deployment Phase 1 menunggu review serta instruksi eksplisit.
 
 ## 2026-07-31 — Version 1.2.1
 

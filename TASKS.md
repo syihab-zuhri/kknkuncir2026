@@ -1,8 +1,8 @@
 # TASKS — Execution Checklist: kkndesakuncir
 
-**Document Version**: 1.2.0  
-**Last Updated**: 2026-07-31  
-**Status**: Ready for Execution  
+**Document Version**: 1.3.0
+**Last Updated**: 2026-08-01
+**Status**: Phase 0–1 Complete; Phase 2 Pending
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`
 
 Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
@@ -23,26 +23,26 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Konfigurasi custom domain `zuhrirey.my.id` setelah Worker sehat.
 - [x] `[M]` Setup Vitest, Playwright, test database, dan basic CI checks.
 
-> Status 2026-07-31: seluruh Phase 0 selesai. Bootstrap, dua D1 terpisah, validation gate lokal, Worker preview, Worker production, custom domain, dan Workers Builds untuk branch `main` sudah tersedia. Authentication, schema aplikasi, dan fitur bisnis tetap belum dimulai.
+> Status 2026-08-01: seluruh Phase 0 dan Phase 1 selesai. Schema/auth migration sudah diterapkan ke D1 lokal dan preview saja; D1 production dan Worker production belum diubah oleh Phase 1.
 
 ## Phase 1 — D1 Schema and Authentication
 
-- [ ] `[S]` Install Drizzle ORM/Kit dan buat D1 client wrapper.
-- [ ] `[M]` Implement schema Better Auth dengan D1 adapter. `(ref: PRD/AUTH.md, ERD.md)`
-- [ ] `[S]` Aktifkan Better Auth Username plugin dan Admin plugin.
-- [ ] `[M]` Implement app tables: `group_settings`, `students`, `qr_credentials`.
-- [ ] `[L]` Implement attendance tables, indexes, constraints, dan atomic audit strategy. `(ref: ERD.md)`
-- [ ] `[S]` Generate dan review migration SQL.
-- [ ] `[S]` Apply migration ke local D1 dan preview D1.
-- [ ] `[M]` Implement Better Auth server config dan secure cookie settings.
-- [ ] `[M]` Implement login menggunakan NIM sebagai username.
-- [ ] `[M]` Implement Admin bootstrap yang idempotent dan hanya aktif pada setup awal.
-- [ ] `[M]` Implement create student account dengan internal email `<nim>@users.zuhrirey.my.id`.
-- [ ] `[M]` Implement first-login forced password change.
-- [ ] `[M]` Implement reset password, deactivate/ban, dan revoke sessions.
-- [ ] `[M]` Implement route guards serta server-side RBAC. `(ref: PERMISSION.md)`
-- [ ] `[M]` Implement login rate limiting dan generic auth errors.
-- [ ] `[M]` Tambahkan audit log untuk provisioning/reset/deactivation.
+- [x] `[S]` Install Drizzle ORM/Kit dan buat D1 client wrapper.
+- [x] `[M]` Implement schema Better Auth dengan D1 adapter. `(ref: PRD/AUTH.md, ERD.md)`
+- [x] `[S]` Aktifkan Better Auth Username plugin dan Admin plugin.
+- [x] `[M]` Implement app tables: `group_settings`, `students`, `qr_credentials`.
+- [x] `[L]` Implement attendance tables, indexes, constraints, dan atomic audit strategy. `(ref: ERD.md)`
+- [x] `[S]` Generate dan review migration SQL.
+- [x] `[S]` Apply migration ke local D1 dan preview D1.
+- [x] `[M]` Implement Better Auth server config dan secure cookie settings.
+- [x] `[M]` Implement login menggunakan NIM sebagai username.
+- [x] `[M]` Implement Admin bootstrap yang idempotent dan hanya aktif pada setup awal.
+- [x] `[M]` Implement create student account dengan internal email `<nim>@users.zuhrirey.my.id`.
+- [x] `[M]` Implement first-login forced password change.
+- [x] `[M]` Implement reset password, deactivate/ban, dan revoke sessions.
+- [x] `[M]` Implement route guards serta server-side RBAC. `(ref: PERMISSION.md)`
+- [x] `[M]` Implement login rate limiting dan generic auth errors.
+- [x] `[M]` Tambahkan audit log untuk provisioning/reset/deactivation.
 
 ## Phase 2 — Group and Student Management
 
