@@ -1,6 +1,6 @@
 # DEPLOYMENT — Cloudflare Workers
 
-**Document Version**: 1.3.1
+**Document Version**: 1.4.0
 **Last Updated**: 2026-08-01
 **Status**: Approved Deployment Runbook
 
@@ -237,7 +237,28 @@ git push origin main
 
 > 💡 Reasoning: Migration dijalankan sebelum automatic Worker deployment dan harus backward-compatible dengan versi aplikasi sebelumnya. Gunakan pola expand/contract untuk perubahan schema setelah launch.
 
-## 13. Smoke Test Checklist
+## 13. Phase 2 Group Seed
+
+Seed awal bersifat additive dan idempotent. Ia hanya membuat group jika satu Admin aktif sudah tersedia dan belum ada group aktif. Seed tidak membuat Admin, user, password, atau credential apa pun.
+
+Validasi lokal/preview:
+
+```bash
+npm run db:seed:local
+npm run db:seed:preview
+```
+
+Preview tanpa Admin akan menghasilkan no-op; jangan membuat credential palsu untuk memaksanya. Sebelum production seed, catat recovery bookmark D1 lalu jalankan file yang sama secara eksplisit:
+
+```bash
+npx wrangler d1 time-travel info DB --remote --env=""
+npx wrangler d1 execute DB --remote --env="" --file drizzle/seeds/initial-group.sql
+npx wrangler d1 execute DB --remote --env="" --command "SELECT id, name, period_start, period_end, daily_auto_create FROM group_settings WHERE is_active = 1" --json
+```
+
+Expected baseline: `KKN Desa Kuncir 2026`, periode `2026-01-01` sampai `2026-12-31`, dan `daily_auto_create=0`. Admin wajib mengoreksi periode/jadwal nyata melalui `/admin/settings/group` sebelum scheduled handler Phase 3 diaktifkan.
+
+## 14. Smoke Test Checklist
 
 - [ ] `https://zuhrirey.my.id` returns application, not placeholder/error.
 - [ ] HTTPS certificate valid.
@@ -254,7 +275,7 @@ git push origin main
 - [ ] CSV/Excel export downloads correctly.
 - [ ] Workers Logs show request IDs without sensitive values.
 
-## 14. Rollback Plan
+## 15. Rollback Plan
 
 ### Application rollback
 
@@ -273,7 +294,7 @@ git push origin main
 - Keep custom domain attached to the last healthy Worker version.
 - Do not change DNS unless routing itself is the failure source.
 
-## 15. Preview Strategy
+## 16. Preview Strategy
 
 - Pull request/branch builds use Workers preview URLs.
 - Preview must use `kknkuncir2026-preview-db`.
@@ -281,7 +302,7 @@ git push origin main
 - Never seed real Mahasiswa data in preview.
 - Custom production domain is only attached to production environment.
 
-## 16. Operational Checklist
+## 17. Operational Checklist
 
 - [ ] Workers Logs enabled.
 - [ ] Traces enabled.
@@ -292,7 +313,7 @@ git push origin main
 - [ ] Monthly dependency update scheduled.
 - [ ] D1 Time Travel restore procedure tested before launch.
 
-## 17. Official References
+## 18. Official References
 
 - https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/
 - https://developers.cloudflare.com/workers/ci-cd/builds/

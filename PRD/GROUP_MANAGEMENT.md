@@ -1,11 +1,11 @@
 # PRD: Group & Student Management
 
-**Status**: Approved  
+**Status**: Implemented; Production Rollout Pending
 **Priority**: P0  
 **Owner Agent**: Fullstack  
 **Dependencies**: `AUTH.md`  
-**Last Updated**: 2026-07-31  
-**Document Version**: 1.1.0
+**Last Updated**: 2026-08-01
+**Document Version**: 1.2.0
 
 ## Overview
 
@@ -22,13 +22,13 @@ Fitur ini menyimpan identitas satu kelompok KKN Desa Kuncir serta daftar mahasis
 
 ## Acceptance Criteria
 
-- [ ] Hanya satu `group_settings` aktif pada MVP.
-- [ ] Admin dapat mengubah nama kelompok, desa, alamat, periode mulai/selesai.
-- [ ] Admin dapat mengatur jadwal default harian, batas terlambat, mode default, dan auto-create.
-- [ ] Admin dapat mencari mahasiswa berdasarkan nama atau NIM.
-- [ ] Mahasiswa hanya dapat melihat profilnya sendiri.
-- [ ] Menonaktifkan mahasiswa tidak menghapus histori attendance.
-- [ ] NIM tidak dapat diubah setelah memiliki attendance tanpa flow koreksi administratif.
+- [x] Hanya satu `group_settings` aktif pada MVP.
+- [x] Admin dapat mengubah nama kelompok, desa, alamat, periode mulai/selesai.
+- [x] Admin dapat mengatur jadwal default harian, batas terlambat, mode default, dan auto-create.
+- [x] Admin dapat mencari mahasiswa berdasarkan nama atau NIM.
+- [x] Mahasiswa hanya dapat melihat profilnya sendiri.
+- [x] Menonaktifkan mahasiswa tidak menghapus histori attendance.
+- [x] NIM tidak dapat diubah setelah memiliki attendance tanpa flow koreksi administratif.
 
 ## UI/UX Specifications
 
@@ -63,6 +63,23 @@ Fitur ini menyimpan identitas satu kelompok KKN Desa Kuncir serta daftar mahasis
 | GET | `/api/v1/students` | Admin | query filters | `{ items, pagination }` |
 | GET | `/api/v1/students/:id` | Admin/Own | none | `{ student }` |
 | PATCH | `/api/v1/students/:id` | Admin | editable student fields | `{ student }` |
+| POST | `/api/v1/admin/students` | Admin | `{ nim, fullName, phone?, notes?, temporaryPassword }` | `{ student }` |
+| PATCH | `/api/v1/admin/students/:id/status` | Admin | `{ isActive, reason }` | `{ student }` |
+| POST | `/api/v1/admin/students/:id/reset-password` | Admin | `{ temporaryPassword, reason }` | `{ success }` |
+| POST | `/api/v1/admin/students/import` | Admin | `{ csv, dryRun }` | `{ dryRun, summary, results }` |
+| GET | `/api/v1/me/profile` | Student | none | `{ student }` |
+
+Endpoint `/api/v1/admin/students` dipertahankan untuk compatibility dengan kontrak provisioning Phase 1. Read/list/edit canonical tetap berada di `/api/v1/students` sesuai blueprint.
+
+### CSV Import Contract
+
+- Encoding text UTF-8, header wajib `nim,nama`, header opsional `telepon`.
+- Alias `fullName`/`phone` diterima untuk interoperability, tetapi template operator tetap memakai header Indonesia.
+- Maksimal 50 data rows; blank rows diabaikan.
+- Quoted field dan escaped quote didukung; malformed quote ditolak sebagai satu request 422.
+- Dry-run wajib dilakukan UI sebelum apply. Dry-run memeriksa format, duplikat di CSV, dan NIM yang sudah tersimpan.
+- Apply memproses setiap baris valid secara terpisah dan mengembalikan `CREATED`, `INVALID`, atau `ERROR` per baris.
+- Password sementara dibuat server-side, minimal 16 karakter berisi huruf/angka, hanya tampil pada response apply, dan tidak masuk CSV, audit, atau log.
 
 ## Data Model (Ringkas)
 
@@ -97,9 +114,9 @@ Fitur ini menyimpan identitas satu kelompok KKN Desa Kuncir serta daftar mahasis
 
 ## Testing Checklist
 
-- [ ] Unit: period date validation.
-- [ ] Integration: mahasiswa tidak dapat list semua mahasiswa.
-- [ ] Integration: deactivation preserves attendance.
+- [x] Unit: period date validation.
+- [x] Integration: mahasiswa tidak dapat list semua mahasiswa.
+- [x] Integration: deactivation preserves attendance.
 - [ ] E2E: admin edit group settings.
 - [ ] E2E: pencarian nama dan NIM.
 
