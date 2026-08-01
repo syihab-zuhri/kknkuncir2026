@@ -1,6 +1,6 @@
 # DEPLOYMENT — Cloudflare Workers
 
-**Document Version**: 1.3.0
+**Document Version**: 1.3.1
 **Last Updated**: 2026-08-01
 **Status**: Approved Deployment Runbook
 
@@ -132,7 +132,7 @@ Rules:
 - Record D1 Time Travel bookmark before high-risk schema changes.
 - Never modify an already-applied production migration.
 
-Status Phase 1 per 2026-08-01: migration telah lulus pada local/preview D1 dan diterapkan ke production D1 setelah recovery bookmark dicatat. Worker Phase 1 belum dideploy dan Admin production belum dibootstrap.
+Status Phase 1 per 2026-08-01: migration telah lulus pada local/preview D1 dan diterapkan ke production D1 setelah recovery bookmark dicatat. Worker Phase 1 telah dideploy melalui Workers Builds dan Admin production telah dibootstrap.
 
 ## 8. Configure Worker Secrets
 
@@ -142,7 +142,16 @@ npx wrangler secret put BOOTSTRAP_ADMIN_PASSWORD
 npx wrangler secret put BOOTSTRAP_ADMIN_TOKEN
 ```
 
-Set `BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` sebagai non-secret vars hanya saat bootstrap dibutuhkan. Panggil endpoint bootstrap dengan bearer token melalui client yang tidak merekam header, segera ganti password awal, lalu hapus password/token bootstrap dari Worker. `QR_SIGNING_SECRET` belum diperlukan sampai Phase 4. Verify names only, never print values into logs.
+Set `BOOTSTRAP_ADMIN_USERNAME` dan `BOOTSTRAP_ADMIN_NAME` sebagai non-secret vars hanya saat bootstrap dibutuhkan. Panggil endpoint bootstrap dengan bearer token melalui client yang tidak merekam header, lalu hapus password/token bootstrap dari Worker segera setelah akun berhasil dibuat. Admin tetap harus mengganti password awal pada login pertama. `QR_SIGNING_SECRET` belum diperlukan sampai Phase 4. Verify names only, never print values into logs.
+
+Checkpoint rollout production 2026-08-01:
+
+- merge commit Phase 1 `bdfa8a0` berhasil melalui Workers Builds;
+- `/health` dan `/login` merespons HTTP 200, sedangkan request anonim ke `/admin` menghasilkan redirect Next.js ke `/login`;
+- D1 berisi tepat satu Admin aktif dengan `must_change_password=1` dan satu audit `ADMIN_BOOTSTRAPPED`;
+- secret `BOOTSTRAP_ADMIN_PASSWORD` dan `BOOTSTRAP_ADMIN_TOKEN` telah dihapus; hanya `BETTER_AUTH_SECRET` yang tersisa;
+- endpoint bootstrap tertutup kembali dengan HTTP 503 karena secret setup sudah tidak tersedia;
+- penggantian password awal Admin terverifikasi melalui `must_change_password=0`, satu audit `PASSWORD_CHANGED`, dan satu session aktif setelah session lain direvoke.
 
 ## 9. Connect GitHub to Workers Builds
 
