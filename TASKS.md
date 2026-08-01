@@ -2,7 +2,7 @@
 
 **Document Version**: 1.4.0
 **Last Updated**: 2026-08-01
-**Status**: Phase 0–1 Complete; Phase 2 Ready to Merge
+**Status**: Phase 0–2 Complete; Phase 3 Pending
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`
 
 Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
@@ -54,7 +54,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[M]` Implement ownership-scoped student profile endpoint.
 - [x] `[S]` Seed initial group `KKN Desa Kuncir 2026`.
 
-> Status 2026-08-01: implementasi dan gate lokal/remote preview Phase 2 selesai. Seed preview aman no-op karena environment tersebut belum memiliki Admin. Recovery bookmark production dicatat, lalu seed idempotent membuat satu group dengan auto-create nonaktif dan audit terverifikasi. PR #6 siap direview/merge; Worker production belum dideploy dengan kode Phase 2. Phase 3 belum dimulai.
+> Status 2026-08-01: implementasi dan gate lokal/remote preview Phase 2 selesai. Seed preview aman no-op karena environment tersebut belum memiliki Admin. Recovery bookmark production dicatat, lalu seed idempotent membuat satu group dengan auto-create nonaktif dan audit terverifikasi. PR #6 digabung sebagai `8ce338b`; Workers Builds, deployment production, D1 check, dan enam smoke browser production lulus. Phase 3 belum dimulai.
 
 ## Phase 3 — Attendance Sessions and Scheduler
 

@@ -1,6 +1,6 @@
 # PRD: Group & Student Management
 
-**Status**: Implemented; Production Rollout Pending
+**Status**: Implemented; Production Active
 **Priority**: P0  
 **Owner Agent**: Fullstack  
 **Dependencies**: `AUTH.md`  

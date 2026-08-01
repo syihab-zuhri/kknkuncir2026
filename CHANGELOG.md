@@ -29,6 +29,15 @@
 - Worker preview Phase 2 dideploy dan seluruh enam smoke test dijalankan ulang terhadap URL workers.dev remote dengan hasil lulus.
 - Recovery bookmark D1 production dicatat sebelum seed; group awal dan audit `GROUP_SEEDED` kemudian terverifikasi tanpa mengaktifkan daily auto-create.
 
+### Production Rollout
+
+- Pull request #6 digabung ke `main` sebagai merge commit `8ce338b`.
+- Workers Builds `9f350867-4b88-498c-9037-fc1e30daec68` menyelesaikan install, lint, strict typecheck, 24 tests, Drizzle check, Next.js build, OpenNext build, asset upload, dan deploy dengan outcome `success`.
+- Worker deployment version `8117212f-5fd4-4709-a19c-297e04d69ff7` menerima 100% traffic production.
+- `https://zuhrirey.my.id/health` dan `/login` merespons HTTP 200; `/api/v1/group` tanpa session merespons 401.
+- Enam smoke test Playwright lulus terhadap domain production, termasuk guard `/admin`, pengaturan group, roster mahasiswa, dan profil Mahasiswa.
+- D1 production terverifikasi memiliki satu group aktif, auto-create nonaktif, dan tepat satu audit seed.
+
 ### Known Limitations
 
 - OpenNext masih memperingatkan dukungan Windows belum penuh dan native SWC Windows tidak dapat dimuat pada host ini; fallback WebAssembly menyelesaikan Next.js serta OpenNext build tanpa error.
