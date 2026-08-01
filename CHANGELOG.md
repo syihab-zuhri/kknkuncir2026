@@ -1,7 +1,39 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.3.1
+**Document Version**: 1.4.0
 **Last Updated**: 2026-08-01
+
+## 2026-08-01 — Version 1.4.0
+
+### Added
+
+- Repository/service modular untuk konfigurasi single-group dan manajemen mahasiswa dengan D1 prepared statements, atomic batch, DTO, validasi Zod, dan audit log.
+- Halaman Admin untuk konfigurasi kelompok, roster/search/detail mahasiswa, provisioning satu akun, edit profil, deactivate/reactivate, dan reset password.
+- Impor CSV `nim,nama,telepon` dengan maksimal 50 baris, quoted-field parser, dry-run wajib, deteksi duplikat/existing NIM, hasil per baris, serta password sementara yang hanya dikembalikan saat apply.
+- Endpoint profil ownership-scoped dan halaman `/student/profile`; query D1 memfilter `user_id`, soft-delete, akun aktif, dan status banned.
+- Seed kelompok idempotent `KKN Desa Kuncir 2026` yang hanya berjalan setelah Admin aktif tersedia, mempertahankan auto-create nonaktif, dan menulis audit `GROUP_SEEDED`.
+- UI administrasi responsive bergaya field-operations ledger dengan loading state, empty state, status/result notices, mobile cards, desktop table, dan fokus keyboard.
+
+### Changed
+
+- Runbook Time Travel diselaraskan dengan Wrangler 4.118.0: subcommand tersebut selalu remote dan tidak menerima flag `--remote`.
+- Login dan forced password change Mahasiswa kini diarahkan ke `/student/profile`; `/me` dipertahankan sebagai redirect kompatibilitas.
+- Response API sensitif memakai `Cache-Control: private, no-store`.
+- Periode kelompok wajib memiliki `period_end` setelah `period_start`; NIM terkunci setelah memiliki attendance.
+- Health contract dinaikkan ke Phase 2.
+
+### Validation
+
+- 24 Vitest tests, lint, strict typecheck, Drizzle schema check, Next.js 16 production build, OpenNext Cloudflare bundle, Wrangler preview/production dry-run, dan enam Playwright Worker smoke tests berhasil.
+- D1 preview dan production diperiksa secara read-only: preview tidak memiliki Admin; production memiliki satu Admin aktif dan belum memiliki group aktif sebelum seed.
+- Worker preview Phase 2 dideploy dan seluruh enam smoke test dijalankan ulang terhadap URL workers.dev remote dengan hasil lulus.
+- Recovery bookmark D1 production dicatat sebelum seed; group awal dan audit `GROUP_SEEDED` kemudian terverifikasi tanpa mengaktifkan daily auto-create.
+
+### Known Limitations
+
+- OpenNext masih memperingatkan dukungan Windows belum penuh dan native SWC Windows tidak dapat dimuat pada host ini; fallback WebAssembly menyelesaikan Next.js serta OpenNext build tanpa error.
+- Tanggal seed menggunakan rentang aman tahun 2026 penuh dan `daily_auto_create=0`; Admin wajib memasukkan tanggal/jam operasional nyata sebelum Phase 3.
+- Preview tidak menerima seed karena belum memiliki Admin, sehingga tidak ada akun atau credential palsu yang dibuat untuk memaksa seed.
 
 ## 2026-08-01 — Version 1.3.1
 

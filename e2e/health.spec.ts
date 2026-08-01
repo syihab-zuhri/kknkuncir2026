@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("renders the Phase 1 health page in the Workers preview", async ({
+test("renders the Phase 2 health page in the Workers preview", async ({
   page,
 }) => {
   const response = await page.goto("/health");
@@ -10,9 +10,9 @@ test("renders the Phase 1 health page in the Workers preview", async ({
   await expect(
     page.getByRole("heading", { name: "Aplikasi dapat dirender." }),
   ).toBeVisible();
-  await expect(page.getByText("Phase 1")).toBeVisible();
+  await expect(page.getByText("Phase 2")).toBeVisible();
   await expect(
-    page.getByText("Schema D1 dan fondasi autentikasi tersedia"),
+    page.getByText("Kelompok dan manajemen mahasiswa tersedia di D1"),
   ).toBeVisible();
 });
 
@@ -34,3 +34,16 @@ test("redirects an unauthenticated protected page to login", async ({
   await expect(page).toHaveURL(/\/login$/);
   await expect(page.getByRole("button", { name: "Masuk" })).toBeVisible();
 });
+
+for (const path of [
+  "/admin/settings/group",
+  "/admin/students",
+  "/student/profile",
+]) {
+  test(`protects ${path} from unauthenticated access`, async ({ page }) => {
+    await page.goto(path);
+
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByRole("button", { name: "Masuk" })).toBeVisible();
+  });
+}

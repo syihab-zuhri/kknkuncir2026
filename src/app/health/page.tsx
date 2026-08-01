@@ -15,8 +15,8 @@ export default function HealthPage() {
         <span className="health-badge">{status.status}</span>
         <h1 id="health-title">Aplikasi dapat dirender.</h1>
         <p className="lede">
-          Halaman ini adalah smoke target aplikasi. Schema D1 dan fondasi
-          autentikasi telah tersedia tanpa mengekspos data atau secret.
+          Halaman ini adalah smoke target aplikasi. Konfigurasi kelompok dan
+          manajemen mahasiswa tersedia tanpa mengekspos data atau secret.
         </p>
 
         <dl className="health-list">

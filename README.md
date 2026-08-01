@@ -4,7 +4,7 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Phase 0 dan Phase 1 telah tersedia di production. Schema D1 Phase 1 sudah tervalidasi pada Workers runtime dan diterapkan ke D1 lokal, preview, serta production. Worker Phase 1 dideploy dari merge commit `bdfa8a0` melalui Workers Builds. Admin production sudah dibootstrap satu kali dan telah menyelesaikan penggantian password awal. QR attendance, dashboard, dan fitur bisnis setelah authentication belum dimulai.
+Phase 0 dan Phase 1 telah tersedia di production. Implementasi Phase 2 untuk konfigurasi kelompok, roster mahasiswa, provisioning/edit/deactivation, impor CSV, dan profil ownership-scoped sudah selesai serta terverifikasi pada Worker preview. Seed group Phase 2 sudah diterapkan secara idempotent ke D1 production setelah recovery bookmark dicatat. Worker production masih menjalankan merge commit Phase 1 `bdfa8a0` sampai pull request #6 digabung dan Workers Builds lulus. QR attendance, sesi, scheduler, dashboard, serta Phase 3 dan seterusnya belum dimulai.
 
 Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, custom domain `zuhrirey.my.id` sudah aktif, dan Workers Builds terhubung ke GitHub branch `main`. Setelah bootstrap, secret password/token sementara telah dihapus; hanya `BETTER_AUTH_SECRET` yang dipertahankan.
 
@@ -28,6 +28,7 @@ Gunakan Node.js 24 dan npm 10.9 atau 11.
 npm ci
 npm run cf:typegen
 npm run db:migrate:local
+npm run db:seed:local
 npm run dev
 ```
 
@@ -41,6 +42,8 @@ npm run preview
 
 Preview memakai environment `preview`, URL `http://127.0.0.1:8787`, dan binding `kknkuncir2026-preview-db`. Preview tidak memakai D1 production.
 
+Seed kelompok sengaja no-op jika belum ada Admin aktif. Nilai awal memakai periode 2026 penuh dan `daily_auto_create=0`; tanggal/jam nyata harus ditinjau Admin sebelum Phase 3.
+
 ## Validation commands
 
 ```bash
@@ -53,6 +56,12 @@ npm run cf:build
 npm run cf:validate
 npm run cf:validate:production
 npm run test:smoke
+```
+
+Untuk smoke Worker yang sudah dideploy tanpa menyalakan preview lokal:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://worker-preview.example.workers.dev npm run test:smoke
 ```
 
 `cf:validate` dan `cf:validate:production` hanya menjalankan Wrangler `--dry-run`; keduanya tidak mengunggah Worker.

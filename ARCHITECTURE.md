@@ -1,8 +1,8 @@
 # ARCHITECTURE — kkndesakuncir
 
-**Document Version**: 1.3.0
+**Document Version**: 1.4.0
 **Last Updated**: 2026-08-01
-**Status**: Phase 1 Implemented Architecture
+**Status**: Phase 2 Implemented Architecture
 
 ## 1. Architecture Goals
 
@@ -471,6 +471,19 @@ Phase 0 mengimplementasikan top-level Wrangler sebagai production Worker bernama
 Phase 1 mengaktifkan `LOGIN_RATE_LIMITER`; binding rate limiter lain tetap berupa deklarasi sampai phase fitur terkait. Cron sengaja tidak diaktifkan pada Phase 0 karena entrypoint belum memiliki scheduled handler; trigger `5 * * * *` baru ditambahkan bersama implementasi dan pengujian Phase 3 agar deployment baseline tidak menghasilkan invocation gagal.
 
 ## 20. Security Baseline
+
+Phase 2 memakai modular-monolith boundaries berikut:
+
+- `src/modules/group`: schema input/DTO, singleton service, dan D1 repository untuk konfigurasi kelompok aktif;
+- `src/modules/students`: CSV parser, schema input/DTO, provisioning/service rules, dan D1 repository;
+- `src/app/api/v1`: Route Handlers sebagai authorization boundary; setiap mutasi memeriksa trusted origin dan role pada server;
+- `src/components/admin`: Client Components hanya untuk state form/interaksi, sedangkan load data dan authorization tetap pada Server Components.
+
+Query ownership Mahasiswa memasukkan `students.user_id = authenticated user.id`, `deleted_at IS NULL`, `user.is_active = 1`, dan status tidak banned di SQL. Mutasi multi-table memakai `D1Database.batch()` agar update profil/status dan audit bersifat atomic. DTO membatasi data yang melewati Server Component ke Client Component; object binding D1 dan session tidak pernah diserialisasi ke browser.
+
+CSV diparse dan divalidasi di Worker. Dry-run tidak membuat akun. Apply menghasilkan password sementara dengan Web Crypto, hanya mengembalikannya pada response `private, no-store`, dan tidak menulis password ke D1 audit/log. Provisioning per baris sengaja sequential agar setiap hasil deterministik dan beban Better Auth/D1 tetap terkontrol pada batas 50 baris.
+
+Seed kelompok tidak membawa credential atau data Mahasiswa. SQL hanya memilih Admin aktif yang sudah ada sebagai `created_by`, no-op bila Admin/grup aktif belum tersedia, mematikan auto-create, dan menulis audit idempotent.
 
 - HTTPS only melalui Cloudflare.
 - Secure HTTP-only session cookies.

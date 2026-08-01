@@ -1,8 +1,8 @@
 # credential — Environment & Cloudflare Services Template
 
-**Document Version**: 1.3.1
+**Document Version**: 1.4.0
 **Last Updated**: 2026-08-01
-**Status**: Phase 1 Production Active
+**Status**: Phase 2 Data Ready; Worker Rollout Pending
 
 > File ini hanya mendokumentasikan nama variable dan prosedur setup. Secret asli maupun nilai secret contoh tidak boleh ditaruh di Git.
 
@@ -96,8 +96,8 @@ Output `cloudflare-env.d.ts` di-commit dan harus digenerate ulang setiap kali bi
 
 | Service | Resource | Status 2026-08-01 |
 |---|---|---|
-| Workers | `kknkuncir2026` | Phase 1 deployed and healthy |
-| D1 Production | `kknkuncir2026-db` | Phase 1 migration applied; one Admin bootstrapped; initial password changed |
+| Workers | `kknkuncir2026` | Phase 1 deployed; Phase 2 PR ready to merge |
+| D1 Production | `kknkuncir2026-db` | Phase 1 migration; one Admin; Phase 2 group seed applied with auto-create off |
 | D1 Preview | `kknkuncir2026-preview-db` | Phase 1 migration applied |
 | Workers Builds | GitHub `syihab-zuhri/kknkuncir2026`, branch `main` | Connected |
 | Custom Domain | `zuhrirey.my.id` | Active on Phase 1 Worker |

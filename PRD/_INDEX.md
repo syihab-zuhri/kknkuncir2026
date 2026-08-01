@@ -1,7 +1,7 @@
 # PRD Index — kkndesakuncir
 
-**Document Version**: 1.1.0  
-**Last Updated**: 2026-07-31  
+**Document Version**: 1.2.0
+**Last Updated**: 2026-08-01
 **Status**: Approved Baseline
 
 ## Feature Registry
@@ -9,7 +9,7 @@
 | ID | Feature | File | Priority | Status | Owner Agent | Dependencies |
 |---|---|---|---|---|---|---|
 | F-01 | Authentication & Account Provisioning | `AUTH.md` | P0 | Approved | Fullstack | Cloudflare Worker + D1 + Better Auth |
-| F-02 | Group & Student Management | `GROUP_MANAGEMENT.md` | P0 | Approved | Fullstack | F-01 |
+| F-02 | Group & Student Management | `GROUP_MANAGEMENT.md` | P0 | Implemented; rollout pending | Fullstack | F-01 |
 | F-03 | Daily & Event Sessions | `ATTENDANCE_SESSION.md` | P0 | Approved | Fullstack | F-01, F-02 |
 | F-04 | QR Attendance | `QR_ATTENDANCE.md` | P0 | Approved | Fullstack | F-01, F-02, F-03 |
 | F-05 | Correction & Audit | `ATTENDANCE_CORRECTION.md` | P0 | Approved | Backend + Frontend | F-04 |

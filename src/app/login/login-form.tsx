@@ -40,7 +40,7 @@ export function LoginForm() {
           ? "/change-password"
           : result.nextAction === "ADMIN_HOME"
             ? "/admin"
-            : "/me";
+            : "/student/profile";
       router.replace(destination);
       router.refresh();
     } catch {
