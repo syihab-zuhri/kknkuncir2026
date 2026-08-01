@@ -1,0 +1,1500 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "8fbb3c22-6315-4fd4-b967-8e8f684419fc",
+  "prevId": "7783af12-0b84-41ad-90e5-6b2649ce7c26",
+  "tables": {
+    "attendance_audits": {
+      "name": "attendance_audits",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "attendance_id": {
+          "name": "attendance_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "action": {
+          "name": "action",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "old_values": {
+          "name": "old_values",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "new_values": {
+          "name": "new_values",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ix_audits_attendance_created": {
+          "name": "ix_audits_attendance_created",
+          "columns": ["attendance_id", "\"created_at\" desc"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "attendance_audits_attendance_id_attendance_records_id_fk": {
+          "name": "attendance_audits_attendance_id_attendance_records_id_fk",
+          "tableFrom": "attendance_audits",
+          "tableTo": "attendance_records",
+          "columnsFrom": ["attendance_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "attendance_audits_created_by_user_id_fk": {
+          "name": "attendance_audits_created_by_user_id_fk",
+          "tableFrom": "attendance_audits",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_attendance_audits_action": {
+          "name": "ck_attendance_audits_action",
+          "value": "\"attendance_audits\".\"action\" IN ('CREATE', 'MANUAL_CREATE', 'STATUS_CHANGE')"
+        },
+        "ck_attendance_audits_reason": {
+          "name": "ck_attendance_audits_reason",
+          "value": "\"attendance_audits\".\"action\" = 'CREATE' OR (\"attendance_audits\".\"reason\" IS NOT NULL AND length(trim(\"attendance_audits\".\"reason\")) > 0)"
+        }
+      }
+    },
+    "attendance_records": {
+      "name": "attendance_records",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "student_id": {
+          "name": "student_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "method": {
+          "name": "method",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "recorded_at": {
+          "name": "recorded_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "location_status": {
+          "name": "location_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "accuracy_meters": {
+          "name": "accuracy_meters",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "location_captured_at": {
+          "name": "location_captured_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "idempotency_key": {
+          "name": "idempotency_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ux_attendance_session_student": {
+          "name": "ux_attendance_session_student",
+          "columns": ["session_id", "student_id"],
+          "isUnique": true
+        },
+        "ux_attendance_idempotency": {
+          "name": "ux_attendance_idempotency",
+          "columns": ["idempotency_key"],
+          "isUnique": true,
+          "where": "\"attendance_records\".\"idempotency_key\" IS NOT NULL"
+        },
+        "ix_records_student_recorded": {
+          "name": "ix_records_student_recorded",
+          "columns": ["student_id", "\"recorded_at\" desc"],
+          "isUnique": false
+        },
+        "ix_records_session_status": {
+          "name": "ix_records_session_status",
+          "columns": ["session_id", "status"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "attendance_records_session_id_attendance_sessions_id_fk": {
+          "name": "attendance_records_session_id_attendance_sessions_id_fk",
+          "tableFrom": "attendance_records",
+          "tableTo": "attendance_sessions",
+          "columnsFrom": ["session_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "attendance_records_student_id_students_id_fk": {
+          "name": "attendance_records_student_id_students_id_fk",
+          "tableFrom": "attendance_records",
+          "tableTo": "students",
+          "columnsFrom": ["student_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "attendance_records_created_by_user_id_fk": {
+          "name": "attendance_records_created_by_user_id_fk",
+          "tableFrom": "attendance_records",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "attendance_records_updated_by_user_id_fk": {
+          "name": "attendance_records_updated_by_user_id_fk",
+          "tableFrom": "attendance_records",
+          "tableTo": "user",
+          "columnsFrom": ["updated_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_attendance_records_status": {
+          "name": "ck_attendance_records_status",
+          "value": "\"attendance_records\".\"status\" IN ('PRESENT', 'LATE', 'SICK', 'PERMITTED', 'ABSENT')"
+        },
+        "ck_attendance_records_method": {
+          "name": "ck_attendance_records_method",
+          "value": "\"attendance_records\".\"method\" IN ('SELF_SCAN', 'ADMIN_SCAN', 'MANUAL')"
+        },
+        "ck_attendance_records_location_status": {
+          "name": "ck_attendance_records_location_status",
+          "value": "\"attendance_records\".\"location_status\" IN ('CAPTURED', 'NOT_REQUIRED', 'UNAVAILABLE')"
+        },
+        "ck_attendance_records_revision": {
+          "name": "ck_attendance_records_revision",
+          "value": "\"attendance_records\".\"revision\" >= 1"
+        },
+        "ck_attendance_records_latitude": {
+          "name": "ck_attendance_records_latitude",
+          "value": "\"attendance_records\".\"latitude\" IS NULL OR \"attendance_records\".\"latitude\" BETWEEN -90 AND 90"
+        },
+        "ck_attendance_records_longitude": {
+          "name": "ck_attendance_records_longitude",
+          "value": "\"attendance_records\".\"longitude\" IS NULL OR \"attendance_records\".\"longitude\" BETWEEN -180 AND 180"
+        },
+        "ck_attendance_records_accuracy": {
+          "name": "ck_attendance_records_accuracy",
+          "value": "\"attendance_records\".\"accuracy_meters\" IS NULL OR \"attendance_records\".\"accuracy_meters\" >= 0"
+        },
+        "ck_attendance_records_location_payload": {
+          "name": "ck_attendance_records_location_payload",
+          "value": "(\"attendance_records\".\"location_status\" = 'CAPTURED' AND \"attendance_records\".\"latitude\" IS NOT NULL AND \"attendance_records\".\"longitude\" IS NOT NULL AND \"attendance_records\".\"location_captured_at\" IS NOT NULL) OR (\"attendance_records\".\"location_status\" != 'CAPTURED' AND \"attendance_records\".\"latitude\" IS NULL AND \"attendance_records\".\"longitude\" IS NULL AND \"attendance_records\".\"accuracy_meters\" IS NULL AND \"attendance_records\".\"location_captured_at\" IS NULL)"
+        }
+      }
+    },
+    "attendance_sessions": {
+      "name": "attendance_sessions",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "session_type": {
+          "name": "session_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "session_date": {
+          "name": "session_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "starts_at": {
+          "name": "starts_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ends_at": {
+          "name": "ends_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "late_after": {
+          "name": "late_after",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attendance_mode": {
+          "name": "attendance_mode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'DRAFT'"
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "qr_version": {
+          "name": "qr_version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ux_daily_session_date": {
+          "name": "ux_daily_session_date",
+          "columns": ["session_date"],
+          "isUnique": true,
+          "where": "\"attendance_sessions\".\"session_type\" = 'DAILY' AND \"attendance_sessions\".\"status\" != 'CANCELLED'"
+        },
+        "ix_sessions_date_status": {
+          "name": "ix_sessions_date_status",
+          "columns": ["session_date", "status"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "attendance_sessions_created_by_user_id_fk": {
+          "name": "attendance_sessions_created_by_user_id_fk",
+          "tableFrom": "attendance_sessions",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "attendance_sessions_updated_by_user_id_fk": {
+          "name": "attendance_sessions_updated_by_user_id_fk",
+          "tableFrom": "attendance_sessions",
+          "tableTo": "user",
+          "columnsFrom": ["updated_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_attendance_sessions_type": {
+          "name": "ck_attendance_sessions_type",
+          "value": "\"attendance_sessions\".\"session_type\" IN ('DAILY', 'EVENT')"
+        },
+        "ck_attendance_sessions_mode": {
+          "name": "ck_attendance_sessions_mode",
+          "value": "\"attendance_sessions\".\"attendance_mode\" IN ('SELF_SCAN', 'ADMIN_SCAN', 'HYBRID')"
+        },
+        "ck_attendance_sessions_status": {
+          "name": "ck_attendance_sessions_status",
+          "value": "\"attendance_sessions\".\"status\" IN ('DRAFT', 'OPEN', 'CLOSED', 'CANCELLED')"
+        },
+        "ck_attendance_sessions_time": {
+          "name": "ck_attendance_sessions_time",
+          "value": "\"attendance_sessions\".\"ends_at\" > \"attendance_sessions\".\"starts_at\""
+        },
+        "ck_attendance_sessions_late": {
+          "name": "ck_attendance_sessions_late",
+          "value": "\"attendance_sessions\".\"late_after\" IS NULL OR (\"attendance_sessions\".\"late_after\" >= \"attendance_sessions\".\"starts_at\" AND \"attendance_sessions\".\"late_after\" <= \"attendance_sessions\".\"ends_at\")"
+        },
+        "ck_attendance_sessions_title": {
+          "name": "ck_attendance_sessions_title",
+          "value": "length(\"attendance_sessions\".\"title\") BETWEEN 1 AND 120"
+        },
+        "ck_attendance_sessions_qr_version": {
+          "name": "ck_attendance_sessions_qr_version",
+          "value": "\"attendance_sessions\".\"qr_version\" >= 1"
+        }
+      }
+    },
+    "audit_logs": {
+      "name": "audit_logs",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "action": {
+          "name": "action",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "entity_type": {
+          "name": "entity_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ix_audit_logs_entity_created": {
+          "name": "ix_audit_logs_entity_created",
+          "columns": ["entity_type", "entity_id", "\"created_at\" desc"],
+          "isUnique": false
+        },
+        "ix_audit_logs_actor_created": {
+          "name": "ix_audit_logs_actor_created",
+          "columns": ["created_by", "\"created_at\" desc"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "audit_logs_created_by_user_id_fk": {
+          "name": "audit_logs_created_by_user_id_fk",
+          "tableFrom": "audit_logs",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "group_settings": {
+      "name": "group_settings",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'KKN Desa Kuncir 2026'"
+        },
+        "village": {
+          "name": "village",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "district": {
+          "name": "district",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "regency": {
+          "name": "regency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "period_start": {
+          "name": "period_start",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "period_end": {
+          "name": "period_end",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "timezone": {
+          "name": "timezone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'Asia/Jakarta'"
+        },
+        "daily_auto_create": {
+          "name": "daily_auto_create",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "daily_start_time": {
+          "name": "daily_start_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "daily_end_time": {
+          "name": "daily_end_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "daily_late_time": {
+          "name": "daily_late_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "daily_default_mode": {
+          "name": "daily_default_mode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'SELF_SCAN'"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ux_group_settings_single_active": {
+          "name": "ux_group_settings_single_active",
+          "columns": ["is_active"],
+          "isUnique": true,
+          "where": "\"group_settings\".\"is_active\" = 1"
+        }
+      },
+      "foreignKeys": {
+        "group_settings_created_by_user_id_fk": {
+          "name": "group_settings_created_by_user_id_fk",
+          "tableFrom": "group_settings",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "group_settings_updated_by_user_id_fk": {
+          "name": "group_settings_updated_by_user_id_fk",
+          "tableFrom": "group_settings",
+          "tableTo": "user",
+          "columnsFrom": ["updated_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_group_settings_period": {
+          "name": "ck_group_settings_period",
+          "value": "\"group_settings\".\"period_end\" >= \"group_settings\".\"period_start\""
+        },
+        "ck_group_settings_default_mode": {
+          "name": "ck_group_settings_default_mode",
+          "value": "\"group_settings\".\"daily_default_mode\" IN ('SELF_SCAN', 'ADMIN_SCAN', 'HYBRID')"
+        }
+      }
+    },
+    "qr_credentials": {
+      "name": "qr_credentials",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "student_id": {
+          "name": "student_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "rotated_at": {
+          "name": "rotated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ux_qr_credentials_token_hash": {
+          "name": "ux_qr_credentials_token_hash",
+          "columns": ["token_hash"],
+          "isUnique": true
+        },
+        "ux_qr_credentials_student_active": {
+          "name": "ux_qr_credentials_student_active",
+          "columns": ["student_id"],
+          "isUnique": true,
+          "where": "\"qr_credentials\".\"is_active\" = 1"
+        }
+      },
+      "foreignKeys": {
+        "qr_credentials_student_id_students_id_fk": {
+          "name": "qr_credentials_student_id_students_id_fk",
+          "tableFrom": "qr_credentials",
+          "tableTo": "students",
+          "columnsFrom": ["student_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "qr_credentials_created_by_user_id_fk": {
+          "name": "qr_credentials_created_by_user_id_fk",
+          "tableFrom": "qr_credentials",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "qr_credentials_updated_by_user_id_fk": {
+          "name": "qr_credentials_updated_by_user_id_fk",
+          "tableFrom": "qr_credentials",
+          "tableTo": "user",
+          "columnsFrom": ["updated_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_qr_credentials_version": {
+          "name": "ck_qr_credentials_version",
+          "value": "\"qr_credentials\".\"version\" >= 1"
+        }
+      }
+    },
+    "students": {
+      "name": "students",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nim": {
+          "name": "nim",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ux_students_user_id": {
+          "name": "ux_students_user_id",
+          "columns": ["user_id"],
+          "isUnique": true
+        },
+        "ux_students_nim_active": {
+          "name": "ux_students_nim_active",
+          "columns": ["nim"],
+          "isUnique": true,
+          "where": "\"students\".\"deleted_at\" IS NULL"
+        },
+        "ix_students_group_id": {
+          "name": "ix_students_group_id",
+          "columns": ["group_id"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "students_user_id_user_id_fk": {
+          "name": "students_user_id_user_id_fk",
+          "tableFrom": "students",
+          "tableTo": "user",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "students_group_id_group_settings_id_fk": {
+          "name": "students_group_id_group_settings_id_fk",
+          "tableFrom": "students",
+          "tableTo": "group_settings",
+          "columnsFrom": ["group_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "students_created_by_user_id_fk": {
+          "name": "students_created_by_user_id_fk",
+          "tableFrom": "students",
+          "tableTo": "user",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "students_updated_by_user_id_fk": {
+          "name": "students_updated_by_user_id_fk",
+          "tableFrom": "students",
+          "tableTo": "user",
+          "columnsFrom": ["updated_by"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "account": {
+      "name": "account",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "access_token_expires_at": {
+          "name": "access_token_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "refresh_token_expires_at": {
+          "name": "refresh_token_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "account_userId_idx": {
+          "name": "account_userId_idx",
+          "columns": ["user_id"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "account_user_id_user_id_fk": {
+          "name": "account_user_id_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "session": {
+      "name": "session",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "impersonated_by": {
+          "name": "impersonated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "session_token_unique": {
+          "name": "session_token_unique",
+          "columns": ["token"],
+          "isUnique": true
+        },
+        "session_userId_idx": {
+          "name": "session_userId_idx",
+          "columns": ["user_id"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "session_user_id_user_id_fk": {
+          "name": "session_user_id_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "display_username": {
+          "name": "display_username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'STUDENT'"
+        },
+        "banned": {
+          "name": "banned",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "ban_reason": {
+          "name": "ban_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ban_expires": {
+          "name": "ban_expires",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "must_change_password": {
+          "name": "must_change_password",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        }
+      },
+      "indexes": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "columns": ["email"],
+          "isUnique": true
+        },
+        "user_username_unique": {
+          "name": "user_username_unique",
+          "columns": ["username"],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "ck_user_role": {
+          "name": "ck_user_role",
+          "value": "\"user\".\"role\" IN ('ADMIN', 'STUDENT')"
+        }
+      }
+    },
+    "verification": {
+      "name": "verification",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsecond') * 1000 as integer))"
+        }
+      },
+      "indexes": {
+        "verification_identifier_idx": {
+          "name": "verification_identifier_idx",
+          "columns": ["identifier"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {
+      "ix_audits_attendance_created": {
+        "columns": {
+          "\"created_at\" desc": {
+            "isExpression": true
+          }
+        }
+      },
+      "ix_records_student_recorded": {
+        "columns": {
+          "\"recorded_at\" desc": {
+            "isExpression": true
+          }
+        }
+      },
+      "ix_audit_logs_entity_created": {
+        "columns": {
+          "\"created_at\" desc": {
+            "isExpression": true
+          }
+        }
+      },
+      "ix_audit_logs_actor_created": {
+        "columns": {
+          "\"created_at\" desc": {
+            "isExpression": true
+          }
+        }
+      }
+    }
+  }
+}
