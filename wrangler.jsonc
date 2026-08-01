@@ -26,6 +26,8 @@
     "APP_NAME": "kkndesakuncir",
     "APP_URL": "https://zuhrirey.my.id",
     "APP_TIMEZONE": "Asia/Jakarta",
+    "BOOTSTRAP_ADMIN_USERNAME": "admin",
+    "BOOTSTRAP_ADMIN_NAME": "Administrator",
   },
   "d1_databases": [
     {
@@ -71,6 +73,8 @@
         "APP_NAME": "kkndesakuncir-preview",
         "APP_URL": "http://127.0.0.1:8787",
         "APP_TIMEZONE": "Asia/Jakarta",
+        "BOOTSTRAP_ADMIN_USERNAME": "admin",
+        "BOOTSTRAP_ADMIN_NAME": "Preview Administrator",
       },
       "d1_databases": [
         {

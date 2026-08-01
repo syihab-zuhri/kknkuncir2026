@@ -21,6 +21,7 @@
 - Contoh Drizzle D1 yang merekomendasikan tag RC tidak diikuti karena blueprint melarang pre-release; versi stabil yang peer-compatible digunakan.
 - Next.js 16 `proxy.ts` tidak digunakan karena Proxy selalu memakai Node runtime sementara OpenNext 1.20.2 belum mendukung Node Middleware. Proteksi nyata tetap dilakukan pada server page guards dan setiap API handler; optimistic cookie check hanya mengurangi render yang tidak perlu.
 - Override stabil `adm-zip`, PostCSS, dan Sharp diterapkan untuk menghilangkan temuan high-severity tanpa downgrade/breaking package.
+- Username dan display name bootstrap yang non-secret ditetapkan eksplisit per Wrangler environment; password dan bearer token tetap hanya disimpan sebagai Worker secrets.
 
 ### Validation
 

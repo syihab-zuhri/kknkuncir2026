@@ -63,7 +63,9 @@ Jangan simpan nilai secret pada `wrangler.jsonc`, Workers Builds build variables
   "vars": {
     "APP_NAME": "kkndesakuncir",
     "APP_URL": "https://zuhrirey.my.id",
-    "APP_TIMEZONE": "Asia/Jakarta"
+    "APP_TIMEZONE": "Asia/Jakarta",
+    "BOOTSTRAP_ADMIN_USERNAME": "admin",
+    "BOOTSTRAP_ADMIN_NAME": "Administrator"
   }
 }
 ```
