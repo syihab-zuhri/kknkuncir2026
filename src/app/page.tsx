@@ -11,15 +11,15 @@ export default function Home() {
     <main className="shell">
       <section className="hero" aria-labelledby="page-title">
         <div>
-          <p className="eyebrow">Phase 1 · Auth &amp; data foundation</p>
-          <h1 id="page-title">Fondasi akun sudah siap diuji.</h1>
+          <p className="eyebrow">Phase 3 · Session operations</p>
+          <h1 id="page-title">Sesi kehadiran siap dikelola.</h1>
         </div>
 
         <div>
           <p className="lede">
-            Schema D1, Better Auth, login NIM, dan kontrol akses server-side
-            sudah tersedia. Fitur kehadiran tetap belum diaktifkan pada fase
-            ini.
+            Kelompok, roster, login NIM, lifecycle sesi, dan scheduler WIB
+            sudah tersedia. Pemindaian QR serta pencatatan kehadiran tetap
+            menunggu Phase 4.
           </p>
           <div className="action-row">
             <Link className="status-link" href="/health">
