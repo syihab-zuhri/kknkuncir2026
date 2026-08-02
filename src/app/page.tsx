@@ -17,9 +17,9 @@ export default function Home() {
 
         <div>
           <p className="lede">
-            Kelompok, roster, login NIM, lifecycle sesi, dan scheduler WIB
-            sudah tersedia. Pemindaian QR serta pencatatan kehadiran tetap
-            menunggu Phase 4.
+            Kelompok, roster, login NIM, lifecycle sesi, dan scheduler WIB sudah
+            tersedia. Pemindaian QR serta pencatatan kehadiran tetap menunggu
+            Phase 4.
           </p>
           <div className="action-row">
             <Link className="status-link" href="/health">
