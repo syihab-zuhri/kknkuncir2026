@@ -1,7 +1,7 @@
 # DEPLOYMENT — Cloudflare Workers
 
-**Document Version**: 1.4.0
-**Last Updated**: 2026-08-01
+**Document Version**: 1.5.1
+**Last Updated**: 2026-08-02
 **Status**: Approved Deployment Runbook
 
 ## 1. Deployment Targets
@@ -246,6 +246,14 @@ Checkpoint preview Phase 3 pada 2026-08-02:
 - sembilan smoke test remote lulus;
 - Cloudflare schedules API mengembalikan array kosong untuk preview dan production sebelum merge;
 - query D1 preview mengembalikan nol sesi dan nol audit scheduler dengan `rows_written=0`.
+
+Checkpoint production Phase 3 pada 2026-08-02:
+
+- PR #8 digabung sebagai `1e0ee11`; Workers Build `d09c1cf5-fff7-402c-bcbd-ad0e890bbac8` menyelesaikan command test dan deploy dengan outcome `success`;
+- deployment `877889d4-16bd-485c-905c-b2be4c3c70d7` mengarahkan 100% traffic ke version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678`;
+- version metadata memiliki handler `fetch` dan `scheduled`; production schedules API mengembalikan tepat satu Cron `5 * * * *`, sedangkan preview tetap kosong;
+- sembilan smoke test production lulus, query observability dua jam menemukan nol event level error, dan application structured logs tidak mengandung secret/PII/lokasi attendance;
+- query D1 sesudah deploy dilakukan read-only dengan `rows_written=0`; recovery bookmark terbaru dicatat sebelum fase berikutnya.
 
 ## 12. First Production Deployment
 

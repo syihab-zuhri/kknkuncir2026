@@ -1,8 +1,8 @@
 # TASKS — Execution Checklist: kkndesakuncir
 
-**Document Version**: 1.5.0
+**Document Version**: 1.5.1
 **Last Updated**: 2026-08-02
-**Status**: Phase 0–2 Complete; Phase 3 Implementation Complete, Rollout Pending
+**Status**: Phase 0–3 Complete; Phase 4 Not Started
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`
 
 Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
@@ -68,7 +68,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[L]` Implement Admin session list/create/detail UI.
 - [x] `[M]` Implement Student active-session cards.
 
-> Status 2026-08-02: seluruh implementasi Phase 3 dan gate lokal selesai tanpa migration baru. Custom Worker OpenNext mempertahankan fetch handler dan menambahkan scheduled handler; production memakai `5 * * * *`, sedangkan preview memiliki `crons: []` dan hanya dapat dipicu manual. D1 production diperiksa read-only dan konfigurasi operasional sudah memakai periode 1 Agustus–1 September 2026, `Asia/Jakarta`, jadwal 07.00–17.00, batas terlambat 07.15, mode `HYBRID`, dan auto-create aktif. Worker preview version `9c2f6620-0382-4593-8587-7af0d5f91e31` lulus sembilan smoke test; API schedules dan D1 mengonfirmasi tidak ada Cron/sesi otomatis di preview. Merge serta verifikasi Cron production masih menunggu rollout terkontrol.
+> Status 2026-08-02: seluruh implementasi dan rollout Phase 3 selesai tanpa migration baru. PR #8 digabung sebagai `1e0ee11`; Workers Builds menerbitkan version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678` dengan handler `fetch` dan `scheduled`, serta mengaktifkan production Cron `5 * * * *`. Preview tetap memiliki `crons: []`. Gate commit merge, sembilan smoke test production, Worker logs, recovery point D1, serta verifikasi D1 read-only telah dijalankan. Phase 4 belum dimulai.
 
 ## Phase 4 — QR Attendance Core
 
@@ -134,8 +134,8 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [ ] `[M]` Execute complete smoke test checklist.
 - [x] `[S]` Change bootstrap Admin password dan revoke bootstrap sessions.
 - [ ] `[S]` Verify Cron execution in Workers Logs.
-- [ ] `[S]` Verify logs contain request IDs and no secrets/precise location.
-- [ ] `[S]` Record current healthy Worker version and D1 recovery point.
+- [x] `[S]` Verify logs contain request IDs and no application secrets/precise attendance location.
+- [x] `[S]` Record current healthy Worker version and D1 recovery point.
 
 ## Phase 9 — Post-Launch P1/P2
 
