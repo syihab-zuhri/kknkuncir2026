@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "kknkuncir2026",
-  "main": ".open-next/worker.js",
+  "main": "worker.ts",
   // Keep this at or below the newest date supported by the pinned workerd build.
   "compatibility_date": "2026-07-30",
   "compatibility_flags": ["nodejs_compat"],
@@ -21,6 +21,9 @@
       "enabled": true,
       "head_sampling_rate": 0.05,
     },
+  },
+  "triggers": {
+    "crons": ["5 * * * *"],
   },
   "vars": {
     "APP_NAME": "kkndesakuncir",
@@ -69,6 +72,10 @@
   ],
   "env": {
     "preview": {
+      // Preview keeps scheduled execution manual through --test-scheduled.
+      "triggers": {
+        "crons": [],
+      },
       "vars": {
         "APP_NAME": "kkndesakuncir-preview",
         "APP_URL": "http://127.0.0.1:8787",
