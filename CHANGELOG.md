@@ -1,7 +1,45 @@
 # CHANGELOG — kkndesakuncir Documentation
 
-**Document Version**: 1.4.0
-**Last Updated**: 2026-08-01
+**Document Version**: 1.5.0
+**Last Updated**: 2026-08-02
+
+## 2026-08-02 — Version 1.5.0
+
+### Added
+
+- Module sesi terpisah untuk validasi Zod, repository prepared-query D1, service lifecycle, RBAC scope, DTO, presentasi status, dan error contract.
+- Endpoint `GET/POST /api/v1/sessions`, detail/edit, open, close, cancel, dan active cards sesuai kontrak `PRD/ATTENDANCE_SESSION.md`.
+- Utilitas waktu eksplisit `Asia/Jakarta` untuk business date, konversi waktu WIB ke UTC epoch millisecond, serta format tanggal/waktu Bahasa Indonesia.
+- Custom Worker resmi OpenNext yang meneruskan fetch handler hasil build dan menambahkan scheduled handler Cloudflare pada `5 * * * *`.
+- Scheduler idempotent untuk membuat satu sesi `DAILY` selama periode aktif, menutup sesi `OPEN` yang kedaluwarsa, menulis audit atomik, dan menghasilkan structured log tanpa PII.
+- Halaman Admin list/create/detail sesi, form edit yang mengunci waktu saat sesi aktif, lifecycle controls, loading/empty states, serta beranda Mahasiswa dengan kartu sesi aktif.
+- Test unit/integrasi untuk batas tengah malam WIB, validasi waktu, unique daily, lifecycle/audit, sesi kedaluwarsa, scheduler berulang, auto-close, query scope Mahasiswa, dan penolakan create endpoint untuk role `STUDENT`.
+
+### Changed
+
+- Entrypoint Wrangler berubah dari `.open-next/worker.js` ke `worker.ts` mengikuti pola custom Worker resmi OpenNext; fetch tetap menggunakan generated handler.
+- Production mendeklarasikan Cron `5 * * * *`; named environment preview mendeklarasikan `crons: []` agar deployment preview tidak menjalankan scheduler otomatis.
+- Redirect login/forced-password-change Mahasiswa dan alias `/me` kini menuju `/student/home`; profil tetap tersedia di `/student/profile`.
+- Admin navigation/dashboard dinaikkan ke Phase 3 dan menampilkan jalur pengelolaan sesi tanpa membuka fitur QR Phase 4.
+- Tidak ada package baru, perubahan versi dependency, atau migration D1; schema `attendance_sessions`, indexes, dan audit table dari Phase 1 sudah mencukupi.
+
+### Validation
+
+- D1 production diperiksa read-only: konfigurasi aktif memakai periode 1 Agustus–1 September 2026, zona waktu `Asia/Jakarta`, jadwal 07.00–17.00, batas terlambat 07.15, mode `HYBRID`, dan auto-create aktif.
+- 34 Vitest tests, lint, strict typecheck, Next.js build, OpenNext build, Wrangler dry-run preview/production, dan sembilan smoke test Playwright berhasil.
+- Worker-compatible local preview merespons `/health` dengan HTTP 200. Scheduled endpoint resmi Wrangler dipicu dua kali pada timestamp yang sama dan tetap menghasilkan tepat satu sesi harian serta satu audit auto-create di D1 lokal.
+- Worker preview version `9c2f6620-0382-4593-8587-7af0d5f91e31` dideploy dengan startup 49 ms dan lulus sembilan smoke test remote. Cloudflare API mengonfirmasi `schedules: []`; query D1 preview tetap menunjukkan nol sesi dan nol audit scheduler.
+
+### Rollout Status
+
+- Branch implementasi belum digabung ke `main`; remote preview sudah tervalidasi tanpa Cron, sedangkan Cron production belum diaktifkan.
+- Karena group production sudah mengaktifkan auto-create dan periodenya sedang berjalan, merge ke `main` akan membuat Cron eligible pada propagasi trigger berikutnya. Rollout wajib mengikuti `DEPLOYMENT.md` dan memverifikasi Cron Events, Workers Logs, serta D1 sesudah deploy.
+
+### Known Limitations
+
+- Fitur membuat token QR, scanner, geolocation, dan pencatatan attendance tetap ditunda ke Phase 4; kartu sesi Mahasiswa pada Phase 3 bersifat informasional.
+- OpenNext tetap memperingatkan dukungan Windows belum penuh dan native SWC host ini gagal dimuat; fallback WebAssembly menyelesaikan build dengan sukses.
+- Audit dependency tetap melaporkan empat temuan moderate pada `esbuild` yang hanya transitif melalui Drizzle Kit development tooling; saran `npm audit fix --force` akan melakukan downgrade breaking dan tidak diterapkan.
 
 ## 2026-08-01 — Version 1.4.0
 

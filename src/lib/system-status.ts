@@ -1,9 +1,9 @@
 const systemStatus = {
   application: "kkndesakuncir",
-  phase: "Phase 2",
+  phase: "Phase 3",
   status: "ready",
   runtime: "Cloudflare Workers melalui OpenNext",
-  database: "Kelompok dan manajemen mahasiswa tersedia di D1",
+  database: "Kelompok, mahasiswa, dan sesi tersedia di D1",
 } as const;
 
 export function getSystemStatus() {

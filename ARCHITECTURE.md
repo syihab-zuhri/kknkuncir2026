@@ -468,7 +468,7 @@ Phase 0 mengimplementasikan top-level Wrangler sebagai production Worker bernama
 
 `compatibility_date` dipin ke `2026-07-30`, yaitu tanggal terbaru yang didukung `workerd` yang terkunci bersama Wrangler 4.118.0. D1 production dan preview dibuat terpisah di region hint APAC; `database_id` aktual disimpan sebagai resource identifier pada Wrangler, bukan sebagai credential. `preview_database_id` top-level dan binding named environment preview sama-sama menunjuk D1 preview.
 
-Phase 1 mengaktifkan `LOGIN_RATE_LIMITER`; binding rate limiter lain tetap berupa deklarasi sampai phase fitur terkait. Cron sengaja tidak diaktifkan pada Phase 0 karena entrypoint belum memiliki scheduled handler; trigger `5 * * * *` baru ditambahkan bersama implementasi dan pengujian Phase 3 agar deployment baseline tidak menghasilkan invocation gagal.
+Phase 1 mengaktifkan `LOGIN_RATE_LIMITER`; binding rate limiter lain tetap berupa deklarasi sampai phase fitur terkait. Phase 3 mengganti entrypoint langsung `.open-next/worker.js` dengan custom `worker.ts` mengikuti panduan resmi OpenNext. Entrypoint tersebut meneruskan `fetch` generated Worker dan menambahkan `scheduled`; production mendeklarasikan trigger `5 * * * *`, sedangkan preview secara eksplisit memakai `crons: []` sehingga hanya dapat diuji melalui `--test-scheduled`.
 
 ## 20. Security Baseline
 
@@ -484,6 +484,15 @@ Query ownership Mahasiswa memasukkan `students.user_id = authenticated user.id`,
 CSV diparse dan divalidasi di Worker. Dry-run tidak membuat akun. Apply menghasilkan password sementara dengan Web Crypto, hanya mengembalikannya pada response `private, no-store`, dan tidak menulis password ke D1 audit/log. Provisioning per baris sengaja sequential agar setiap hasil deterministik dan beban Better Auth/D1 tetap terkontrol pada batas 50 baris.
 
 Seed kelompok tidak membawa credential atau data Mahasiswa. SQL hanya memilih Admin aktif yang sudah ada sebagai `created_by`, no-op bila Admin/grup aktif belum tersedia, mematikan auto-create, dan menulis audit idempotent.
+
+Phase 3 menambahkan boundary berikut:
+
+- `src/modules/sessions`: schema/DTO, authorization scope, lifecycle service, dan repository D1 untuk list/detail/create/edit/transition;
+- `src/lib/time`: business-date dan konversi waktu eksplisit `Asia/Jakarta`; seluruh timestamp persistence tetap UTC epoch millisecond;
+- `src/worker/scheduled.ts`: orchestration Cron yang hanya mencatat ringkasan operasional, tanpa title, user identifier, atau PII;
+- `worker.ts`: custom OpenNext entrypoint dengan generated fetch handler dan scheduled handler Cloudflare.
+
+Auto-create mengambil periode, waktu, mode, dan actor audit dari active `group_settings`, lalu memakai conditional insert bersama unique partial index `ux_daily_session_date`. Eksekusi berulang bersifat no-op dan tidak menulis audit duplikat. Auto-close hanya mengubah sesi `OPEN` dengan `ends_at <= scheduledTime`, memakai optimistic condition dan audit dalam `D1Database.batch()`. Cron tetap bukan security boundary; query sesi aktif dan future attendance submission memvalidasi status serta jendela waktu secara independen.
 
 - HTTPS only melalui Cloudflare.
 - Secure HTTP-only session cookies.
@@ -517,6 +526,7 @@ Seed kelompok tidak membawa credential atau data Mahasiswa. SQL hanya memilih Ad
 - https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
 - https://developers.cloudflare.com/workers/configuration/cron-triggers/
 - https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+- https://opennext.js.org/cloudflare/howtos/custom-worker
 - https://www.better-auth.com/docs/adapters/drizzle
 - https://www.better-auth.com/docs/plugins/username
 - https://www.better-auth.com/docs/plugins/admin

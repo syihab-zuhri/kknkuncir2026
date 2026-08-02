@@ -1,8 +1,8 @@
 # TASKS — Execution Checklist: kkndesakuncir
 
-**Document Version**: 1.4.0
-**Last Updated**: 2026-08-01
-**Status**: Phase 0–2 Complete; Phase 3 Pending
+**Document Version**: 1.5.0
+**Last Updated**: 2026-08-02
+**Status**: Phase 0–2 Complete; Phase 3 Implementation Complete, Rollout Pending
 **Target Repository**: `https://github.com/syihab-zuhri/kknkuncir2026.git`
 
 Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
@@ -58,15 +58,17 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 
 ## Phase 3 — Attendance Sessions and Scheduler
 
-- [ ] `[M]` Implement session schema validation dan service lifecycle. `(ref: PRD/ATTENDANCE_SESSION.md)`
-- [ ] `[M]` Implement create/edit/open/close/cancel endpoints.
-- [ ] `[M]` Implement daily session uniqueness handling.
-- [ ] `[M]` Implement Cloudflare scheduled handler pada `5 * * * *`.
-- [ ] `[M]` Implement Asia/Jakarta date/time conversion utility.
-- [ ] `[M]` Implement idempotent daily session auto-create.
-- [ ] `[S]` Implement auto-close expired sessions.
-- [ ] `[L]` Implement Admin session list/create/detail UI.
-- [ ] `[M]` Implement Student active-session cards.
+- [x] `[M]` Implement session schema validation dan service lifecycle. `(ref: PRD/ATTENDANCE_SESSION.md)`
+- [x] `[M]` Implement create/edit/open/close/cancel endpoints.
+- [x] `[M]` Implement daily session uniqueness handling.
+- [x] `[M]` Implement Cloudflare scheduled handler pada `5 * * * *`.
+- [x] `[M]` Implement Asia/Jakarta date/time conversion utility.
+- [x] `[M]` Implement idempotent daily session auto-create.
+- [x] `[S]` Implement auto-close expired sessions.
+- [x] `[L]` Implement Admin session list/create/detail UI.
+- [x] `[M]` Implement Student active-session cards.
+
+> Status 2026-08-02: seluruh implementasi Phase 3 dan gate lokal selesai tanpa migration baru. Custom Worker OpenNext mempertahankan fetch handler dan menambahkan scheduled handler; production memakai `5 * * * *`, sedangkan preview memiliki `crons: []` dan hanya dapat dipicu manual. D1 production diperiksa read-only dan konfigurasi operasional sudah memakai periode 1 Agustus–1 September 2026, `Asia/Jakarta`, jadwal 07.00–17.00, batas terlambat 07.15, mode `HYBRID`, dan auto-create aktif. Worker preview version `9c2f6620-0382-4593-8587-7af0d5f91e31` lulus sembilan smoke test; API schedules dan D1 mengonfirmasi tidak ada Cron/sesi otomatis di preview. Merge serta verifikasi Cron production masih menunggu rollout terkontrol.
 
 ## Phase 4 — QR Attendance Core
 

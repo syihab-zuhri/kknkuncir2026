@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 type AdminFrameProps = {
-  active: "overview" | "group" | "students";
+  active: "overview" | "group" | "students" | "sessions";
   actorName: string;
   title: string;
   description: string;
@@ -22,6 +22,12 @@ const navigation = [
     href: "/admin/students",
     label: "Mahasiswa",
     marker: "03",
+  },
+  {
+    id: "sessions",
+    href: "/admin/sessions",
+    label: "Sesi",
+    marker: "04",
   },
 ] as const;
 
@@ -67,7 +73,7 @@ export function AdminFrame({
             ))}
           </nav>
           <p className="admin-rail-note">
-            Fase 2<strong>Kelompok & mahasiswa</strong>
+            Fase 3<strong>Sesi & scheduler</strong>
           </p>
         </aside>
 

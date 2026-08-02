@@ -23,6 +23,7 @@
     "db:seed:local": "wrangler d1 execute DB --local --env preview --file drizzle/seeds/initial-group.sql",
     "db:seed:preview": "wrangler d1 execute DB --remote --env preview --file drizzle/seeds/initial-group.sql",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview --port 8787",
+    "preview:scheduled": "opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview --port 8787 --test-scheduled",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env=\"\"",
     "deploy:preview": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --env preview",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload --env=\"\"",
