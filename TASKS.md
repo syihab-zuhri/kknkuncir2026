@@ -68,7 +68,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[L]` Implement Admin session list/create/detail UI.
 - [x] `[M]` Implement Student active-session cards.
 
-> Status 2026-08-02: seluruh implementasi dan rollout Phase 3 selesai tanpa migration baru. PR #8 digabung sebagai `1e0ee11`; Workers Builds menerbitkan version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678` dengan handler `fetch` dan `scheduled`, serta mengaktifkan production Cron `5 * * * *`. Preview tetap memiliki `crons: []`. Gate commit merge, sembilan smoke test production, Worker logs, recovery point D1, serta verifikasi D1 read-only telah dijalankan. Phase 4 belum dimulai.
+> Status 2026-08-02: seluruh implementasi dan rollout Phase 3 selesai tanpa migration baru. PR #8 digabung sebagai `1e0ee11`; Workers Builds menerbitkan version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678` dengan handler `fetch` dan `scheduled`, serta mengaktifkan production Cron `5 * * * *`. Invocation asli pada 14:05:56 WIB menghasilkan `dailyCreated=true`, `insidePeriod=true`, `expiredClosed=0`, tepat satu sesi `DAILY`, dan tepat satu audit `SESSION_AUTO_CREATED`; preview tetap memiliki `crons: []`. Gate commit merge, sembilan smoke test production, Worker logs, recovery point D1, serta verifikasi D1 read-only telah dijalankan. Phase 4 belum dimulai.
 
 ## Phase 4 — QR Attendance Core
 
@@ -133,7 +133,7 @@ Effort: `[S]` <2 jam, `[M]` 2–8 jam, `[L]` >8 jam.
 - [x] `[S]` Attach custom domain `zuhrirey.my.id`.
 - [ ] `[M]` Execute complete smoke test checklist.
 - [x] `[S]` Change bootstrap Admin password dan revoke bootstrap sessions.
-- [ ] `[S]` Verify Cron execution in Workers Logs.
+- [x] `[S]` Verify Cron execution in Workers Logs.
 - [x] `[S]` Verify logs contain request IDs and no application secrets/precise attendance location.
 - [x] `[S]` Record current healthy Worker version and D1 recovery point.
 

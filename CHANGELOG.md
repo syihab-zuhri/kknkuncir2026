@@ -15,6 +15,7 @@
 - Workers Build `d09c1cf5-fff7-402c-bcbd-ad0e890bbac8` selesai dengan outcome `success`; deployment `877889d4-16bd-485c-905c-b2be4c3c70d7` mengarahkan 100% traffic ke version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678`.
 - Metadata production mengonfirmasi handler `fetch` dan `scheduled`, binding D1 production yang benar, serta Cron `5 * * * *`; named preview tetap tanpa schedule.
 - Sembilan smoke test Playwright lulus pada `https://zuhrirey.my.id`. Query observability sejak rollout menemukan nol event level error, dan D1 diperiksa read-only tanpa menulis data.
+- Invocation Cron production pertama pada 14:05:56 WIB terdeteksi dengan `requestId`, `dailyCreated=true`, `insidePeriod=true`, dan `expiredClosed=0`; D1 kemudian mengonfirmasi tepat satu sesi `DAILY` dan satu audit `SESSION_AUTO_CREATED`.
 - Recovery point D1 terbaru dicatat setelah deployment sehat.
 
 ### Validation

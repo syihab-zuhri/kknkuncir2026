@@ -253,6 +253,7 @@ Checkpoint production Phase 3 pada 2026-08-02:
 - deployment `877889d4-16bd-485c-905c-b2be4c3c70d7` mengarahkan 100% traffic ke version `1c9f2806-849f-456e-a6e3-0a2ce5c6c678`;
 - version metadata memiliki handler `fetch` dan `scheduled`; production schedules API mengembalikan tepat satu Cron `5 * * * *`, sedangkan preview tetap kosong;
 - sembilan smoke test production lulus, query observability dua jam menemukan nol event level error, dan application structured logs tidak mengandung secret/PII/lokasi attendance;
+- Cron event production pertama pada 14:05:56 WIB memiliki `requestId`, `dailyCreated=true`, `insidePeriod=true`, dan `expiredClosed=0`; D1 mengonfirmasi tepat satu sesi `DAILY` dan satu audit `SESSION_AUTO_CREATED`;
 - query D1 sesudah deploy dilakukan read-only dengan `rows_written=0`; recovery bookmark terbaru dicatat sebelum fase berikutnya.
 
 ## 12. First Production Deployment
