@@ -4,7 +4,7 @@ Website kehadiran KKN Desa Kuncir 2026. Repository ini memakai Next.js App Route
 
 ## Status implementasi
 
-Phase 0, Phase 1, dan Phase 2 telah tersedia di production. Konfigurasi kelompok, roster mahasiswa, provisioning/edit/deactivation, impor CSV, serta profil ownership-scoped dideploy dari merge commit `8ce338b` melalui Workers Builds. Seed group Phase 2 diterapkan secara idempotent ke D1 production setelah recovery bookmark dicatat. QR attendance, sesi, scheduler, dashboard, serta Phase 3 dan seterusnya belum dimulai.
+Phase 0, Phase 1, dan Phase 2 telah tersedia di production. Implementasi Phase 3 untuk sesi harian/kegiatan, lifecycle, halaman Admin, kartu aktif Mahasiswa, dan scheduler Cloudflare sudah selesai di branch fitur dan menunggu rollout terkontrol. QR token, scanner, geolocation, serta pencatatan attendance tetap belum dimulai sampai Phase 4.
 
 Resource D1 production dan preview sudah dibuat terpisah di Cloudflare dan ID binding aktual telah dicatat di `wrangler.jsonc`. Worker production serta preview sudah diverifikasi sehat, custom domain `zuhrirey.my.id` sudah aktif, dan Workers Builds terhubung ke GitHub branch `main`. Setelah bootstrap, secret password/token sementara telah dihapus; hanya `BETTER_AUTH_SECRET` yang dipertahankan.
 
@@ -40,9 +40,16 @@ Untuk menjalankan hasil OpenNext pada runtime Worker lokal:
 npm run preview
 ```
 
+Untuk mengekspos endpoint Cron lokal resmi Wrangler tanpa menambahkan trigger preview otomatis:
+
+```bash
+npm run preview:scheduled
+curl "http://127.0.0.1:8787/cdn-cgi/handler/scheduled?cron=5+*+*+*+*&time=<epoch-ms>&format=json"
+```
+
 Preview memakai environment `preview`, URL `http://127.0.0.1:8787`, dan binding `kknkuncir2026-preview-db`. Preview tidak memakai D1 production.
 
-Seed kelompok sengaja no-op jika belum ada Admin aktif. Nilai awal memakai periode 2026 penuh dan `daily_auto_create=0`; tanggal/jam nyata harus ditinjau Admin sebelum Phase 3.
+Seed kelompok sengaja no-op jika belum ada Admin aktif. Scheduler membaca kebijakan active group dari D1 dan tidak memakai nilai tanggal/jam hard-code. Preview mendeklarasikan `crons: []`; hanya production yang memakai `5 * * * *`.
 
 ## Validation commands
 

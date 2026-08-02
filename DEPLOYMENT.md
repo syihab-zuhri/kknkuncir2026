@@ -192,7 +192,7 @@ Requirements:
 
 ## 11. Cron Trigger (Phase 3)
 
-Phase 0 tidak mengaktifkan Cron. Tambahkan trigger berikut pada Phase 3 hanya setelah scheduled handler tersedia dan telah diuji:
+Phase 3 mengaktifkan trigger production berikut setelah custom scheduled handler diuji:
 
 ```jsonc
 {
@@ -209,6 +209,43 @@ Scheduled handler must:
 - close expired sessions;
 - log summary and errors;
 - never depend on cron alone for submission authorization.
+
+Entrypoint production adalah `worker.ts`, yang meneruskan generated OpenNext `fetch` handler dan menambahkan `scheduled`. Named environment preview wajib mempertahankan konfigurasi berikut agar tidak pernah berjalan otomatis:
+
+```jsonc
+{
+  "env": {
+    "preview": {
+      "triggers": { "crons": [] }
+    }
+  }
+}
+```
+
+Local Worker validation:
+
+```bash
+npm run preview:scheduled
+curl "http://127.0.0.1:8787/cdn-cgi/handler/scheduled?cron=5+*+*+*+*&time=<epoch-ms>&format=json"
+```
+
+Cron Cloudflare memakai UTC dan perubahan trigger dapat memerlukan waktu hingga 15 menit untuk tersebar. Job menghitung business date dari `controller.scheduledTime`, tidak dari jam browser. Phase 3 tidak memerlukan migration baru karena schema/index sesi sudah diterapkan pada Phase 1.
+
+Sebelum merge Phase 3 ke `main`:
+
+1. Query konfigurasi group production secara read-only dan pastikan periode, waktu, mode, timezone, serta `daily_auto_create` benar.
+2. Jalankan unit/integration test, OpenNext build, Wrangler preview/production dry-run, dan local scheduled endpoint dua kali pada timestamp sama.
+3. Pastikan D1 lokal hanya berisi satu daily session dan satu audit auto-create.
+4. Deploy branch ke named preview; pastikan preview tidak memiliki Cron trigger.
+5. Merge hanya setelah review. Karena Workers Builds memantau `main`, merge dapat langsung mendeploy trigger production.
+6. Setelah deploy, tunggu propagasi, periksa Cron Events/Workers Logs, lalu query sesi/audit production secara read-only.
+
+Checkpoint preview Phase 3 pada 2026-08-02:
+
+- Worker version `9c2f6620-0382-4593-8587-7af0d5f91e31`, startup 49 ms;
+- sembilan smoke test remote lulus;
+- Cloudflare schedules API mengembalikan array kosong untuk preview dan production sebelum merge;
+- query D1 preview mengembalikan nol sesi dan nol audit scheduler dengan `rows_written=0`.
 
 ## 12. First Production Deployment
 
@@ -330,3 +367,4 @@ Checkpoint production Phase 2 pada 2026-08-01:
 - https://developers.cloudflare.com/d1/reference/time-travel/
 - https://developers.cloudflare.com/workers/configuration/secrets/
 - https://developers.cloudflare.com/workers/configuration/cron-triggers/
+- https://opennext.js.org/cloudflare/howtos/custom-worker
